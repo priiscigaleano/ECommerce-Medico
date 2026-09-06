@@ -5,21 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TraumaShop - Tienda del Instituto de Traumatología</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&family=Almendra:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <header>
         <div class="header-content">
             <div class="logo">
-                <img src="C:\Users\Pc\Downloads\logo-tienda.png" alt="Logo TraumaShop" width="60">
+                <img src="C:\Users\Pc\OneDrive\Escritorio\Tienda-Traumatología\imágenes\logo-tienda.png" alt="Logo TraumaShop" width="60">
                 <h1>TraumaShop</h1>
             </div>
 
-<!-- Checkbox oculto para el menú hamburguesa -->
             <input type="checkbox" id="menu-toggle">
-            
-            <!-- Etiqueta que se ve como hamburguesa -->
             <label for="menu-toggle" class="menu-icon">
                 <span></span>
                 <span></span>
@@ -39,74 +36,71 @@
     </header>
 
     <main>
-        <section class="hero">
-        <!-- El título va aparte, arriba y centrado -->
-        <h2 class="titulo-hero">Bienvenido a TraumaShop</h2>
-
-        <!-- El contenido (Imagen + Párrafos) va en un contenedor hijo -->
-        <div class="hero-contenido">
-            <img src="C:\Users\Pc\Downloads\imagenindex.jpg" alt="Imagen representativa de TraumaShop" class="hero-image">
+        <!-- CONTENEDOR PRINCIPAL -->
+        <div class="contenedor-principal">
             
-            <div class="hero-text">
-                <p>
-                    En <strong>TraumaShop</strong> encontrarás productos especializados para el cuidado de tu salud musculoesquelética. 
-                    Desde férulas y ortesis hasta productos de rehabilitación, ofrecemos soluciones diseñadas para 
-                    mejorar tu calidad de vida. Nuestra tienda está respaldada por el <strong>Instituto de Traumatología</strong>, 
-                    garantizando productos de la más alta calidad para el tratamiento de diversas patologías.
-                </p>
-                <p>
-                    Explora nuestro catálogo y encuentra el apoyo que necesitas para tu recuperación y bienestar.
-                </p>
+            <!-- COLUMNA IZQUIERDA: HERO (Con texto extra para llenar el espacio) -->
+            <div class="columna-hero">
+                <section class="hero">
+                    <h2>Bienvenido a TraumaShop</h2>
+
+                    <div class="hero-contenido">
+                        <img src="C:\Users\Pc\OneDrive\Escritorio\Tienda-Traumatología\imágenes\imagenindex.jpg" alt="Imagen representativa de TraumaShop" class="hero-image">
+                        
+                        <div class="hero-text">
+                            <p>
+                                <strong>TraumaShop</strong> ofrece productos especializados en salud musculoesquelética, respaldados por el <strong>Instituto de Traumatología</strong>.
+                            </p>
+                            <p>
+                                Nuestro catálogo incluye una amplia variedad de férulas, ortesis, placas, tornillos y kits de osteosíntesis, diseñados para satisfacer las necesidades de los profesionales de la salud.
+                            </p>
+                            
+                            <p>
+                                Explora nuestro catálogo y encuentra el apoyo que necesitas para tu recuperación y bienestar.
+                            </p>
+                        </div>
+                    </div>
+                </section>
             </div>
+
+            <!-- COLUMNA DERECHA: ESQUELETO (No se toca nada) -->
+            <div class="columna-esqueleto">
+                <div class="caja-esqueleto">
+                    <div class="seccion-titulos">
+                        <h1>Presiona un Hueso para Ver los Productos</h1>
+                        <h2>PLACAS Y TORNILLOS PARA OSTEOSINTESIS</h2>
+                    </div>
+
+                    <div class="esqueleto-interactivo">
+                        <img src="C:\Users\Pc\OneDrive\Escritorio\Tienda-Traumatología\imágenes\esqueleto.png" usemap="#mapa-huesos" class="esqueleto-img">
+                        <map name="mapa-huesos">
+                            <area shape="circle" coords="31%, 17.6%, 5%" href="producto.html#clavicula" alt="Clavícula">
+                            <area shape="circle" coords="61.7%, 23.6%, 5%" href="producto.html#humero" alt="Húmero">
+                            <area shape="circle" coords="25%, 36.8%, 5%" href="producto.html#antebrazo" alt="Antebrazo">
+                            <area shape="circle" coords="24.6%, 44%, 5%" href="producto.html#radio-cubito" alt="Radio y Cúbito">
+                            <area shape="circle" coords="53.9%, 36.8%, 5%" href="producto.html#mano" alt="Mano">
+                            <area shape="circle" coords="53.9%, 36.8%, 5%" href="producto.html#cadera" alt="Cadera">
+                            <area shape="circle" coords="54.6%, 51%, 5%" href="producto.html#femur" alt="Fémur">
+                            <area shape="circle" coords="54.6%, 67.6%, 5%" href="producto.html#tibia" alt="Tibia">
+                            <area shape="circle" coords="41.7%, 81.8%, 5%" href="producto.html#perone" alt="Peroné">
+                            <area shape="circle" coords="50.3%, 84%, 5%" href="producto.html#pie" alt="Pie">
+                        </map>
+                        <div class="texto-hueso" style="top: 17.6%; left: 31%;">Clavícula</div>
+                        <div class="texto-hueso" style="top: 23.6%; left: 61.7%;">Húmero</div>
+                        <div class="texto-hueso" style="top: 36.8%; left: 25%;">Antebrazo</div>
+                        <div class="texto-hueso" style="top: 44%; left: 24.6%;">Radio y Cúbito</div>
+                        <div class="texto-hueso" style="top: 36.8%; left: 53.9%;">Mano</div>
+                        <div class="texto-hueso" style="top: 36.8%; left: 53.9%;">Cadera</div>
+                        <div class="texto-hueso" style="top: 51%; left: 54.6%;">Fémur</div>
+                        <div class="texto-hueso" style="top: 67.6%; left: 54.6%;">Tibia</div>
+                        <div class="texto-hueso" style="top: 81.8%; left: 41.7%;">Peroné</div>
+                        <div class="texto-hueso" style="top: 84%; left: 50.3%;">Pie</div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </section>
     </main>
-
-
-    <div class="seccion-titulos">
-        <h1>Presiona un Hueso para Ver los Productos</h1>
-        <h2>PLACAS Y TORNILLOS PARA OSTEOSINTESIS</h2>
-    </div>
-
-    <!-- Sección flexible: Esqueleto (60%) y Texto (40%) -->
-    <div class="seccion-esqueleto">
-        
-        <!-- Columna Izquierda: Imagen -->
-        <div class="contenedor-esqueleto">
-            <img src="esqueleto.png" alt="Esqueleto humano" class="esqueleto-img">
-
-            <!-- BOTONES EN PORCENTAJES (Responsivos) -->
-            <a href="producto.html#clavicula" class="boton-hueso" style="top: 20%; left: 37%;">Clavícula</a>
-            <a href="producto.html#humero" class="boton-hueso" style="top: 26%; left: 66%;">Húmero</a>
-            <a href="producto.html#antebrazo" class="boton-hueso" style="top: 42%; left: 29%;">Antebrazo</a>
-            <a href="producto.html#radio-cubito" class="boton-hueso" style="top: 50%; left: 30%;">Radio y Cúbito</a>
-            <a href="producto.html#mano" class="boton-hueso" style="top: 53%; left: 73%;">Mano</a>
-            
-            <a href="producto.html#cadera" class="boton-hueso" style="top: 44%; left: 57%;">Cadera</a>
-            <a href="producto.html#femur" class="boton-hueso" style="top: 63%; left: 41%;">Fémur</a>
-            <a href="producto.html#tibia" class="boton-hueso" style="top: 80%; left: 57%;">Tibia</a>
-            <a href="producto.html#perone" class="boton-hueso" style="top: 93%; left: 43%;">Peroné</a>
-            <a href="producto.html#pie" class="boton-hueso" style="top: 96%; left: 56%;">Pie</a>
-        </div>
-
-        <!-- Columna Derecha: Texto -->
-        <div class="texto-informativo">
-            <h3>Explora el Sistema Óseo</h3>
-            <p>
-                <strong>Instrucciones:</strong> Haz clic directamente sobre cualquiera de los puntos azules del esqueleto 
-                para descubrir el catálogo específico de placas, tornillos y kits quirúrgicos correspondientes a esa área.
-            </p>
-            <p>
-                Cada producto ha sido seleccionado por el Instituto de Traumatología para garantizar la más alta calidad 
-                en la recuperación de nuestros pacientes.
-            </p>
-            
-            <p class="frase-motivadora">
-                "Cada paso hacia adelante es una victoria. ¡Tu recuperación es nuestro mayor logro!"
-            </p>
-        </div>
-
-    </div>
 
     <footer>
         <p>&copy; 2024 TraumaShop - Instituto de Traumatología. Todos los derechos reservados.</p>
