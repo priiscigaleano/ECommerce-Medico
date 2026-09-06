@@ -372,6 +372,56 @@ th:hover, td:hover {
     background-color: #1f618d;
 }
 
+/* --- ESTILOS PARA LISTADO BOX (TARJETAS POR ÁREA) --- */
+
+/* Tarjeta general más grande y llamativa */
+.area-card {
+    border: 2px solid #f0f0f0;
+    padding: 30px 20px;
+    transition: transform 0.3s, border-color 0.3s;
+}
+
+.area-card:hover {
+    border-color: #2980b9;
+    transform: translateY(-5px);
+}
+
+.area-card h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.area-card p {
+    font-size: 0.95em;
+    min-height: 50px; /* Para que las tarjetas tengan la misma altura */
+}
+
+/* Botón "Ir" */
+.btn-ir {
+    display: inline-block;
+    background-color: #2980b9;
+    color: white;
+    padding: 10px 30px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: background 0.3s;
+    margin-top: 15px;
+}
+
+.btn-ir:hover {
+    background-color: #1f618d;
+}
+
+/* Imágenes de las tarjetas (pueden ser iconos de huesos) */
+.area-card .product-image {
+    max-width: 120px;
+    height: 100px;
+    object-fit: contain;
+}
+
 /* --- ESTILOS DE LISTADO TABLA --- */
 .product-table {
     width: 90%;
