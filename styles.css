@@ -190,7 +190,7 @@ nav a:hover {
 }
 
 .hero h2 {
-    font-size: 1.5em;
+    font-size: 2em;
     color: #2c3e50;
     margin: 0 auto 15px auto;
 }
@@ -207,8 +207,8 @@ nav a:hover {
 .hero-image {
     background-color: transparent;
     border: none;
-    width: 288px;
-    height: 220px;
+    width: 300px;
+    height: 290px;
     object-fit: contain;
     flex-shrink: 0;
 }
@@ -271,7 +271,7 @@ nav a:hover {
 }
 
 .seccion-titulos h2 {
-    font-size: 0.9em;
+    font-size: 1em;
     margin: 0;
     line-height: 1.2;
     text-transform: uppercase;
@@ -292,7 +292,7 @@ nav a:hover {
 /* Imagen del esqueleto */
 .esqueleto-img {
     width: 100%;
-    height: 100%;
+    height: 90%;
     object-fit: contain;
     display: block;
     position: absolute;
@@ -541,12 +541,20 @@ td img {
     background-color: #34495e;
 }
 
-.btn-add-cart {
-    background-color: #27ae60;
+/* BOTÓN COMPRAR (Reemplaza al botón de agregar al carrito) */
+.btn-comprar {
+    display: inline-block;
+    background-color: #09246e;
     color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+    margin-top: 10px;
 }
 
-.btn-add-cart:hover {
+.btn-comprar:hover {
     background-color: #219150;
 }
 
@@ -665,4 +673,23 @@ footer {
     color: white;
     padding: 20px;
     margin-top: 50px;
+}
+
+/* ==========================================
+   BOTÓN COMPRAR
+   ========================================== */
+.btn-comprar {
+    display: inline-block;
+    background-color: #27ae60;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+.btn-comprar:hover {
+    background-color: #219150;
 }
