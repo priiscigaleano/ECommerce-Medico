@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Compra | TraumaShop</title>
+    <title>Formulario de Compra | La Tienda del Traumatólogo</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&family=Almendra:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -12,14 +12,11 @@
     <header>
         <div class="header-content">
             <div class="logo">
-                <img src="C:\Users\Pc\Downloads\logo-tienda.png" alt="Logo TraumaShop" width="60">
-                <h1>TraumaShop</h1>
+                <img src="imágenes\logo-tienda.png" alt="Logo La Tienda del Traumatólogo" width="60">
+                <h1>La Tienda del Traumatólogo</h1>
             </div>
 
-            <!-- Checkbox oculto para el menú hamburguesa -->
             <input type="checkbox" id="menu-toggle">
-            
-            <!-- Etiqueta que se ve como hamburguesa -->
             <label for="menu-toggle" class="menu-icon">
                 <span></span>
                 <span></span>
@@ -38,28 +35,42 @@
         </div>
     </header>
 
-    <main>
+    <main class="contenedor-compra" style="min-height: 600px;">
         <h2>Gestión de Compra</h2>
 
-        <!-- Sección de selección de productos -->
-        <div class="carrito-box">
-            <h3>Selecciona tus productos</h3>
-            <form action="#" method="post">
-                <div class="product-list-check">
-                    <label><input type="checkbox" name="productos" value="ferula"> Férula de Muñeca - $25.000</label>
-                    <label><input type="checkbox" name="productos" value="ortesis"> Ortesis de Rodilla - $45.000</label>
-                    <label><input type="checkbox" name="productos" value="collar"> Collares Cervicales - $18.000</label>
-                    <label><input type="checkbox" name="productos" value="muletas"> Muletas de Aluminio - $32.000</label>
-                    <label><input type="checkbox" name="productos" value="faja"> Faja Lumbar - $28.000</label>
-                </div>
-                <!-- El botón de enviar "gestiona" la compra -->
-                <button type="submit" class="btn-vaciar">Procesar Selección</button>
-            </form>
+        <!-- PUERTA DE ENTRADA (Se muestra solo si entras a comprar.html SIN #id) -->
+        <div class="carrito-box" id="puerta">
+            <p>
+                <strong>Antes de llenar tus datos:</strong> 
+                Para iniciar tu compra, primero debes seleccionar un producto del catálogo. 
+                Haz clic en "Comprar" en el producto que quieras adquirir, y automáticamente llegarás y se muestra el form de compra.
+            </p>
+            <p style="font-weight: bold; color: #09246e;">
+                <a href="producto.html" class="btn-ir" style="margin-top: 0;">Ir al Catálogo</a>
+            </p>
         </div>
 
-        <!-- Formulario de datos del cliente -->
-        <form class="purchase-form">
+        <!-- ELEMENTOS INVISIBLES (Los IDs que buscan los enlaces de producto.html) -->
+        <div id="clavicula" style="display: none;"></div>
+        <div id="humero" style="display: none;"></div>
+        <div id="antebrazo" style="display: none;"></div>
+        <div id="radio-cubito" style="display: none;"></div>
+        <div id="mano" style="display: none;"></div>
+        <div id="cadera" style="display: none;"></div>
+        <div id="femur" style="display: none;"></div>
+        <div id="tibia" style="display: none;"></div>
+        <div id="perone" style="display: none;"></div>
+        <div id="pie" style="display: none;"></div>
+
+        <!-- FORMULARIO ÚNICO (Se muestra cuando llegas con un ID) -->
+        <form class="purchase-form" id="formulario">
             <h3>Datos de Envío</h3>
+            
+            <div class="form-group">
+                <label>Producto Seleccionado:</label>
+                <div id="producto-seleccionado" style="font-weight: bold; color: #09246e; background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-top: 5px;"></div>
+            </div>
+            
             <div class="form-group">
                 <label for="cliente">Nombre del Cliente:</label>
                 <input type="text" id="cliente" name="cliente" required>
@@ -92,8 +103,101 @@
     </main>
 
     <footer>
-        <p>&copy; 2024 TraumaShop - Instituto de Traumatología. Todos los derechos reservados.</p>
+        <p>&copy; 2026 La Tienda del Traumatólogo. Todos los derechos reservados.</p>
     </footer>
+
+    <!-- TRUCO CSS 100% :target (FUNCIONA PORQUE LOS IDs ESTÁN ANTES DEL FORMULARIO) -->
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Todos los formularios ocultos por defecto */
+        .purchase-form {
+            display: none;
+        }
+
+        /* MUESTRA el formulario si llegas con CUALQUIER ID de producto */
+        #clavicula:target ~ #formulario,
+        #humero:target ~ #formulario,
+        #antebrazo:target ~ #formulario,
+        #radio-cubito:target ~ #formulario,
+        #mano:target ~ #formulario,
+        #cadera:target ~ #formulario,
+        #femur:target ~ #formulario,
+        #tibia:target ~ #formulario,
+        #perone:target ~ #formulario,
+        #pie:target ~ #formulario {
+            display: block;
+        }
+
+        /* OCULTAR la puerta si llegas con CUALQUIER ID de producto */
+        #clavicula:target ~ #puerta,
+        #humero:target ~ #puerta,
+        #antebrazo:target ~ #puerta,
+        #radio-cubito:target ~ #puerta,
+        #mano:target ~ #puerta,
+        #cadera:target ~ #puerta,
+        #femur:target ~ #puerta,
+        #tibia:target ~ #puerta,
+        #perone:target ~ #puerta,
+        #pie:target ~ #puerta {
+            display: none;
+        }
+
+        /* MUESTRA EL PRODUCTO SEGÚN EL ID (Usando ::before en el DIV) */
+        #clavicula:target ~ #formulario #producto-seleccionado::before {
+            content: "PLACA BLOQUEADA/DCP CLAVICULA TITANIO - $ 5,015.47";
+            display: block;
+        }
+
+        #humero:target ~ #formulario #producto-seleccionado::before {
+            content: "PLACA DCP RECONSTRUCCIÓN CADERA/HÚMERO - $ 500.00";
+            display: block;
+        }
+
+        #antebrazo:target ~ #formulario #producto-seleccionado::before {
+            content: "PLACA DCP LIGERA PARA TORNILLOS 4.5MM - $ 563.47";
+            display: block;
+        }
+
+        #radio-cubito:target ~ #formulario #producto-seleccionado::before {
+            content: "PLACA BLOQUEADA/DCP MANO EN T OBLICUA - $ 3,972.27";
+            display: block;
+        }
+
+        #mano:target ~ #formulario #producto-seleccionado::before {
+            content: "PLACA BLOQUEADA MANO RECTA - $ 3,713.33";
+            display: block;
+        }
+
+        #cadera:target ~ #formulario #producto-seleccionado::before {
+            content: "PLACA DCP RECONSTRUCCIÓN - $ 500.00";
+            display: block;
+        }
+
+        #femur:target ~ #formulario #producto-seleccionado::before {
+            content: "PLACA DCP TUBO DOBLE PARED 135° - $ 1,859.47";
+            display: block;
+        }
+
+        #tibia:target ~ #formulario #producto-seleccionado::before {
+            content: "PLACA BLOQUEADA EN T - $ 2,006.13";
+            display: block;
+        }
+
+        #perone:target ~ #formulario #producto-seleccionado::before {
+            content: "PLACA DCP MALLA PIE DE COMPRESIÓN GRANDE - $ 3,713.33";
+            display: block;
+        }
+
+        #pie:target ~ #formulario #producto-seleccionado::before {
+            content: "PLACA BLOQUEADA PIE/MANO EN L - $ 3,713.33";
+            display: block;
+        }
+    </style>
 
 </body>
 </html>
