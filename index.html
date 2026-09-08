@@ -72,29 +72,44 @@
                     </div>
 
                     <div class="esqueleto-interactivo">
+                        <!-- IMAGEN (Asegúrate de que el tamaño sea el correcto en el CSS) -->
                         <img src="img/esqueleto.png" usemap="#mapa-huesos" class="esqueleto-img" alt="Esqueleto interactivo">
-                         <map name="mapa-huesos">
-                            <area shape="circle" coords="31%, 17.6%, 5%" href="producto.html#clavicula" alt="Clavícula">
-                            <area shape="circle" coords="61.7%, 23.6%, 5%" href="producto.html#humero" alt="Húmero">
-                            <area shape="circle" coords="25%, 36.8%, 5%" href="producto.html#antebrazo" alt="Antebrazo">
-                            <area shape="circle" coords="24.6%, 44%, 5%" href="producto.html#radio-cubito" alt="Radio y Cúbito">
-                            <area shape="circle" coords="53.9%, 36.8%, 5%" href="producto.html#mano" alt="Mano">
-                            <area shape="circle" coords="53.9%, 36.8%, 5%" href="producto.html#cadera" alt="Cadera">
-                            <area shape="circle" coords="54.6%, 51%, 5%" href="producto.html#femur" alt="Fémur">
-                            <area shape="circle" coords="54.6%, 67.6%, 5%" href="producto.html#tibia" alt="Tibia">
-                            <area shape="circle" coords="41.7%, 81.8%, 5%" href="producto.html#perone" alt="Peroné">
-                            <area shape="circle" coords="50.3%, 84%, 5%" href="producto.html#pie" alt="Pie">
+
+                        <!-- MAPA CON COORDENADAS EN PÍXELES  -->
+                        <map name="mapa-huesos">
+                            <!-- Clavícula (coords originales: 155,118) -->
+                            <area shape="circle" coords="155,118,15" href="producto.html#clavicula" alt="Clavícula">
+                            <!-- Húmero (coords originales: 258,156) -->
+                            <area shape="circle" coords="258,156,15" href="producto.html#humero" alt="Húmero">
+                            <!-- Antebrazo (coords originales: 119,249) -->
+                            <area shape="circle" coords="119,249,15" href="producto.html#antebrazo" alt="Antebrazo">
+                            <!-- Radio y Cúbito (coords originales: 113,304) -->
+                            <area shape="circle" coords="113,304,15" href="producto.html#radio-cubito" alt="Radio y Cúbito">
+                            <!-- Mano (coords originales: 226,270) - Separada de Cadera para que no se superpongan -->
+                            <area shape="circle" coords="226,270,15" href="producto.html#mano" alt="Mano">
+                            <!-- Cadera (coords originales: 226,270) - Nota: originalmente coincidían, separa si quieres -->
+                            <area shape="circle" coords="226,270,15" href="producto.html#cadera" alt="Cadera">
+                            <!-- Fémur (coords originales: 161,374) -->
+                            <area shape="circle" coords="161,374,15" href="producto.html#femur" alt="Fémur">
+                            <!-- Tibia (coords originales: 166,489) -->
+                            <area shape="circle" coords="166,489,15" href="producto.html#tibia" alt="Tibia">
+                            <!-- Peroné (coords originales: 169,554) -->
+                            <area shape="circle" coords="169,554,15" href="producto.html#perone" alt="Peroné">
+                            <!-- Pie (coords originales: 224,568) -->
+                            <area shape="circle" coords="224,568,15" href="producto.html#pie" alt="Pie">
                         </map>
-                        <div class="texto-hueso" style="top: 19%; left: 33%;">Clavícula</div>
-                        <div class="texto-hueso" style="top: 27%; left: 69%;">Húmero</div>
-                        <div class="texto-hueso" style="top: 42%; left: 25%;">Antebrazo</div>
-                        <div class="texto-hueso" style="top: 46%; left: 24.6%;">Radio y Cúbito</div>
-                        <div class="texto-hueso" style="top: 49%; left: 72%;">Mano</div>
-                        <div class="texto-hueso" style="top: 40%; left: 59%;">Cadera</div>
-                        <div class="texto-hueso" style="top: 57%; left: 58%;">Fémur</div>
-                        <div class="texto-hueso" style="top: 77%; left: 60%;">Tibia</div>
-                        <div class="texto-hueso" style="top: 82%; left: 41.7%;">Peroné</div>
-                        <div class="texto-hueso" style="top: 84%; left: 56%;">Pie</div>
+
+                        <!-- TEXTOS FLOTANTES -->
+                        <div class="texto-hueso" style="top: 90px; left: 125px;">Clavícula</div>
+                        <div class="texto-hueso" style="top: 142px; left: 210px;">Húmero</div>
+                        <div class="texto-hueso" style="top: 200px; left: 90px;">Antebrazo</div>
+                        <div class="texto-hueso" style="top: 230px; left: 85px;">Radio y Cúbito</div>
+                        <div class="texto-hueso" style="top: 250px; left: 226px;">Mano</div>
+                        <div class="texto-hueso" style="top: 205px; left: 180px;">Cadera</div>
+                        <div class="texto-hueso" style="top: 285px; left: 169px;">Fémur</div>
+                        <div class="texto-hueso" style="top: 390px; left: 180px;">Tibia</div>
+                        <div class="texto-hueso" style="top: 430px; left: 130px;">Peroné</div>
+                        <div class="texto-hueso" style="top: 440px; left: 175px;">Pie</div>
                     </div>
                 </div>
             </div>

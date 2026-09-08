@@ -282,26 +282,21 @@ nav a:hover {
 }
 
 /* --- CONTENEDOR DEL ESQUELETO --- */
+/* --- CONTENEDOR DEL ESQUELETO --- */
 .esqueleto-interactivo {
     position: relative;
     width: 100%;
-    max-width: 280px;
-    aspect-ratio: 1 / 1.8;
+    max-width: 280px; /* Asegúrate de que coincida con las coordenadas que pusiste */
 }
 
-/* Imagen del esqueleto */
+/* Imagen del esqueleto (AHORA ES ESTÁTICA PARA QUE EL MAPA COINCIDA) */
 .esqueleto-img {
     width: 100%;
-    height: 90%;
-    object-fit: contain;
+    height: auto; /* Se adapta proporcionalmente */
     display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
 }
 
-/* --- TEXTOS FLOTANTES --- */
+/* --- TEXTOS FLOTANTES (AHORA DEJAN PASAR LOS CLICS AL MAPA) --- */
 .texto-hueso {
     position: absolute;
     transform: translate(-50%, -50%);
@@ -318,6 +313,7 @@ nav a:hover {
     white-space: nowrap;
     z-index: 10;
     cursor: pointer;
+    pointer-events: none; /* ¡CLAVE! Evita que el texto capture el clic */
 }
 
 .texto-hueso:hover {
