@@ -38,19 +38,18 @@
     <main class="contenedor-compra" style="min-height: 600px;">
         <h2>Gestión de Compra</h2>
 
-        <!-- PUERTA DE ENTRADA (Se muestra solo si entras a comprar.html SIN #id) -->
+        <!-- PUERTA DE ENTRADA -->
         <div class="carrito-box" id="puerta">
             <p>
                 <strong>Antes de llenar tus datos:</strong> 
-                Para iniciar tu compra, primero debes seleccionar un producto del catálogo. 
-                Haz clic en "Comprar" en el producto que quieras adquirir, y automáticamente llegarás y se muestra el form de compra.
+                Para iniciar tu compra, primero debes seleccionar un producto del catálogo haciendo clic en "Comprar".
             </p>
             <p style="font-weight: bold; color: #09246e;">
                 <a href="producto.html" class="btn-ir" style="margin-top: 0;">Ir al Catálogo</a>
             </p>
         </div>
 
-        <!-- ELEMENTOS INVISIBLES (Los IDs que buscan los enlaces de producto.html) -->
+        <!-- ELEMENTOS INVISIBLES DE CONTROL -->
         <div id="clavicula" style="display: none;"></div>
         <div id="humero" style="display: none;"></div>
         <div id="antebrazo" style="display: none;"></div>
@@ -62,7 +61,7 @@
         <div id="perone" style="display: none;"></div>
         <div id="pie" style="display: none;"></div>
 
-        <!-- FORMULARIO ÚNICO (Se muestra cuando llegas con un ID) -->
+        <!-- FORMULARIO DE COMPRA -->
         <form class="purchase-form" id="formulario">
             <h3>Datos de Envío</h3>
             
@@ -71,6 +70,30 @@
                 <div id="producto-seleccionado" style="font-weight: bold; color: #09246e; background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-top: 5px;"></div>
             </div>
             
+            <!-- CANTIDAD Y SUBTOTAL -->
+            <div class="form-group">
+                <label for="cantidadProducto">Cantidad a comprar:</label>
+                <input type="number" id="cantidadProducto" name="cantidadProducto" min="1" value="1" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Subtotal a Abonar:</label>
+                <div style="font-size: 1.2em; font-weight: bold; color: #27ae60;">
+                    $<span id="subtotalDinamico">0.00</span>
+                </div>
+            </div>
+
+            <!-- DESAFÍO RELÁMPAGO: VALIDADOR DE CUPÓN -->
+            <div class="form-group">
+                <label for="inputCupon">Código de Descuento:</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="inputCupon" placeholder="Ej: UCP10" style="flex: 1;">
+                    <button type="button" id="btnValidarCupon" class="btn-ver" style="margin-top: 0;">Validar</button>
+                </div>
+                <!-- Mensaje dinámico del cupón -->
+                <div id="mensajeCupon" style="margin-top: 8px; font-weight: bold; padding: 8px; border-radius: 5px; display: none;"></div>
+            </div>
+
             <div class="form-group">
                 <label for="cliente">Nombre del Cliente:</label>
                 <input type="text" id="cliente" name="cliente" required>
@@ -106,7 +129,7 @@
         <p>&copy; 2026 La Tienda del Traumatólogo. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- TRUCO CSS 100% :target (FUNCIONA PORQUE LOS IDs ESTÁN ANTES DEL FORMULARIO) -->
+    <!-- ESTILOS CSS PARA LOS MENSAJES DE CUPÓN -->
     <style>
         body {
             display: flex;
@@ -114,12 +137,24 @@
             min-height: 100vh;
         }
 
-        /* Todos los formularios ocultos por defecto */
         .purchase-form {
             display: none;
         }
 
-        /* MUESTRA el formulario si llegas con CUALQUIER ID de producto */
+        /* Clases CSS solicitadas para el desafío de cupones */
+        .mensaje-exito {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .mensaje-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Mostrar formulario y ocultar puerta según :target */
         #clavicula:target ~ #formulario,
         #humero:target ~ #formulario,
         #antebrazo:target ~ #formulario,
@@ -133,7 +168,6 @@
             display: block;
         }
 
-        /* OCULTAR la puerta si llegas con CUALQUIER ID de producto */
         #clavicula:target ~ #puerta,
         #humero:target ~ #puerta,
         #antebrazo:target ~ #puerta,
@@ -147,57 +181,96 @@
             display: none;
         }
 
-        /* MUESTRA EL PRODUCTO SEGÚN EL ID (Usando ::before en el DIV) */
-        #clavicula:target ~ #formulario #producto-seleccionado::before {
-            content: "PLACA BLOQUEADA/DCP CLAVICULA TITANIO - $ 5,015.47";
-            display: block;
-        }
-
-        #humero:target ~ #formulario #producto-seleccionado::before {
-            content: "PLACA DCP RECONSTRUCCIÓN CADERA/HÚMERO - $ 500.00";
-            display: block;
-        }
-
-        #antebrazo:target ~ #formulario #producto-seleccionado::before {
-            content: "PLACA DCP LIGERA PARA TORNILLOS 4.5MM - $ 563.47";
-            display: block;
-        }
-
-        #radio-cubito:target ~ #formulario #producto-seleccionado::before {
-            content: "PLACA BLOQUEADA/DCP MANO EN T OBLICUA - $ 3,972.27";
-            display: block;
-        }
-
-        #mano:target ~ #formulario #producto-seleccionado::before {
-            content: "PLACA BLOQUEADA MANO RECTA - $ 3,713.33";
-            display: block;
-        }
-
-        #cadera:target ~ #formulario #producto-seleccionado::before {
-            content: "PLACA DCP RECONSTRUCCIÓN - $ 500.00";
-            display: block;
-        }
-
-        #femur:target ~ #formulario #producto-seleccionado::before {
-            content: "PLACA DCP TUBO DOBLE PARED 135° - $ 1,859.47";
-            display: block;
-        }
-
-        #tibia:target ~ #formulario #producto-seleccionado::before {
-            content: "PLACA BLOQUEADA EN T - $ 2,006.13";
-            display: block;
-        }
-
-        #perone:target ~ #formulario #producto-seleccionado::before {
-            content: "PLACA DCP MALLA PIE DE COMPRESIÓN GRANDE - $ 3,713.33";
-            display: block;
-        }
-
-        #pie:target ~ #formulario #producto-seleccionado::before {
-            content: "PLACA BLOQUEADA PIE/MANO EN L - $ 3,713.33";
-            display: block;
-        }
+        /* TEXTOS DE PRODUCTOS */
+        #clavicula:target ~ #formulario #producto-seleccionado::before { content: "PLACA BLOQUEADA/DCP CLAVICULA TITANIO - $ 5,015.47"; display: block; }
+        #humero:target ~ #formulario #producto-seleccionado::before { content: "PLACA DCP RECONSTRUCCIÓN CADERA/HÚMERO - $ 500.00"; display: block; }
+        #antebrazo:target ~ #formulario #producto-seleccionado::before { content: "PLACA DCP LIGERA PARA TORNILLOS 4.5MM - $ 563.47"; display: block; }
+        #radio-cubito:target ~ #formulario #producto-seleccionado::before { content: "PLACA BLOQUEADA/DCP MANO EN T OBLICUA - $ 3,972.27"; display: block; }
+        #mano:target ~ #formulario #producto-seleccionado::before { content: "PLACA BLOQUEADA MANO RECTA - $ 3,713.33"; display: block; }
+        #cadera:target ~ #formulario #producto-seleccionado::before { content: "PLACA DCP RECONSTRUCCIÓN - $ 500.00"; display: block; }
+        #femur:target ~ #formulario #producto-seleccionado::before { content: "PLACA DCP TUBO DOBLE PARED 135° - $ 1,859.47"; display: block; }
+        #tibia:target ~ #formulario #producto-seleccionado::before { content: "PLACA BLOQUEADA EN T - $ 2,006.13"; display: block; }
+        #perone:target ~ #formulario #producto-seleccionado::before { content: "PLACA DCP MALLA PIE DE COMPRESIÓN GRANDE - $ 3,713.33"; display: block; }
+        #pie:target ~ #formulario #producto-seleccionado::before { content: "PLACA BLOQUEADA PIE/MANO EN L - $ 3,713.33"; display: block; }
     </style>
+
+    <!-- SCRIPT DE JAVASCRIPT (CÁLCULO Y VALIDACIÓN DE CUPÓN) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputCantidad = document.getElementById('cantidadProducto');
+            const spanSubtotal = document.getElementById('subtotalDinamico');
+            
+            // Elementos del Desafío Relámpago de Cupones
+            const inputCupon = document.getElementById('inputCupon');
+            const btnValidarCupon = document.getElementById('btnValidarCupon');
+            const mensajeCupon = document.getElementById('mensajeCupon');
+
+            const preciosProductos = {
+                'clavicula': 5015.47,
+                'humero': 500.00,
+                'antebrazo': 563.47,
+                'radio-cubito': 3972.27,
+                'mano': 3713.33,
+                'cadera': 500.00,
+                'femur': 1859.47,
+                'tibia': 2006.13,
+                'perone': 3713.33,
+                'pie': 3713.33
+            };
+
+            function calcularSubtotalCompra() {
+                let productoId = window.location.hash.replace('#', '');
+                let precioUnitario = preciosProductos[productoId] || 0;
+
+                let cantidad = parseInt(inputCantidad.value);
+                if (isNaN(cantidad) || cantidad < 1) {
+                    cantidad = 1;
+                }
+
+                let subtotal = cantidad * precioUnitario;
+                spanSubtotal.textContent = subtotal.toLocaleString('es-AR', { 
+                    minimumFractionDigits: 2, 
+                    maximumFractionDigits: 2 
+                });
+            }
+
+            // Función requerida por el Desafío Relámpago AA 15
+            function validarCupon() {
+                // Capturar, limpiar espacios con .trim() y convertir a mayúsculas con .toUpperCase()
+                let codigo = inputCupon.value.trim().toUpperCase();
+
+                // Mostrar el contenedor del mensaje
+                mensajeCupon.style.display = 'block';
+
+                // Limpiar clases anteriores
+                mensajeCupon.className = '';
+
+                // Evaluar mediante condicionales if / else
+                if (codigo === "") {
+                    mensajeCupon.textContent = "Por favor, ingrese un código";
+                    mensajeCupon.classList.add('mensaje-error');
+                } else if (codigo === "UCP10") {
+                    mensajeCupon.textContent = "¡Cupón aplicado! Tenés un 10% de descuento";
+                    mensajeCupon.classList.add('mensaje-exito');
+                } else {
+                    mensajeCupon.textContent = "Código inválido o vencido";
+                    mensajeCupon.classList.add('mensaje-error');
+                }
+            }
+
+            // Eventos de escucha
+            if (inputCantidad) {
+                inputCantidad.addEventListener('input', calcularSubtotalCompra);
+            }
+            
+            if (btnValidarCupon) {
+                btnValidarCupon.addEventListener('click', validarCupon);
+            }
+
+            window.addEventListener('hashchange', calcularSubtotalCompra);
+            calcularSubtotalCompra();
+        });
+    </script>
 
 </body>
 </html>
