@@ -1,0 +1,12 @@
+[
+  {
+    "email": "doctor@traumashop.com",
+    "password": "123456",
+    "nombre": "Dr. Carlos Médico"
+  },
+  {
+    "email": "cliente@traumashop.com",
+    "password": "cliente123",
+    "nombre": "Juan Pérez"
+  }
+]

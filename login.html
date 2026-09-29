@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso de Usuarios | La Tienda del Traumatólogo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        .hidden { display: none; }
+        .login-container { max-width: 400px; margin: 40px auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .msg-error { color: red; font-size: 0.9em; margin-top: 10px; }
+        .msg-exito { color: green; font-size: 0.9em; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="img/logo-tienda.png" alt="Logo TraumaShop" width="60">
+                <h1>La Tienda del Traumatólogo</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="producto.html">Catálogo</a></li>
+                    <li><a href="login.html">Ingresar</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- VISTA VISITANTE -->
+        <div id="vista-visitante" class="login-container">
+            <h2>Iniciar Sesión</h2>
+            <form id="formulario-login">
+                <div class="form-group">
+                    <label for="email">Correo Electrónico:</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn-submit">Ingresar</button>
+                <div id="mensaje-login"></div>
+            </form>
+        </div>
+
+        <!-- VISTA USUARIO AUTENTICADO -->
+        <div id="vista-autenticado" class="login-container hidden">
+            <h2>Panel de Usuario</h2>
+            <p id="mensaje-bienvenida"></p>
+            <button id="btn-logout" class="btn-vaciar">Cerrar Sesión</button>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
