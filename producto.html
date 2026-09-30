@@ -11,27 +11,40 @@
 
     <header>
         <div class="header-content">
+
+            <!-- Checkbox oculto: tiene que ir PRIMERO para que el selector ~ funcione -->
+            <input type="checkbox" id="menu-toggle">
+
             <div class="logo">
-                <img src="img/logo-tienda.png" alt="Logo La Tienda del Traumatólogo" width="60">
+                <img src="img/logo-tienda.png" alt="Logo TraumaShop" width="60">
                 <h1>La Tienda del Traumatólogo</h1>
             </div>
-            
-            <input type="checkbox" id="menu-toggle">
+
+            <nav>
+                <!-- MENÚ PRINCIPAL: se ve en la barra de arriba en desktop,
+                    y se esconde dentro del hamburguesa en mobile -->
+                <ul class="nav-principal">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="listado_tabla.html">Listado Tabla</a></li>
+                    <li><a href="listado_box.html">Listado Box</a></li>
+                    <li><a href="login.html">Ingresar</a></li>
+                </ul>
+
+                <!-- MENÚ SECUNDARIO: siempre dentro del hamburguesa -->
+                <ul class="nav-secundaria">
+                    <li><a href="producto.html">Producto</a></li>
+                    <li><a href="comprar.html">Comprar</a></li>
+                    <li><a href="presupuesto.html">Presupuesto</a></li>
+                </ul>
+            </nav>
+
+            <!-- Ícono hamburguesa: AHORA SIEMPRE VISIBLE -->
             <label for="menu-toggle" class="menu-icon">
                 <span></span>
                 <span></span>
                 <span></span>
             </label>
 
-            <nav>
-                <ul>
-                    <li><a href="index.html">Inicio</a></li>
-                    <li><a href="listado_tabla.html">Listado Tabla</a></li>
-                    <li><a href="listado_box.html">Listado Box</a></li>
-                    <li><a href="producto.html">Producto</a></li>
-                    <li><a href="comprar.html">Comprar</a></li>
-                </ul>
-            </nav>
         </div>
     </header>
 

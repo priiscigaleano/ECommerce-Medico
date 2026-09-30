@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Presupuesto — La Tienda del Traumatólogo</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&family=Almendra:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+
+            <!-- Checkbox oculto: tiene que ir PRIMERO para que el selector ~ funcione -->
+            <input type="checkbox" id="menu-toggle">
+
+            <div class="logo">
+                <img src="img/logo-tienda.png" alt="Logo TraumaShop" width="60">
+                <h1>La Tienda del Traumatólogo</h1>
+            </div>
+
+            <nav>
+                <!-- MENÚ PRINCIPAL: se ve en la barra de arriba en desktop,
+                    y se esconde dentro del hamburguesa en mobile -->
+                <ul class="nav-principal">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="listado_tabla.html">Listado Tabla</a></li>
+                    <li><a href="listado_box.html">Listado Box</a></li>
+                    <li><a href="login.html">Ingresar</a></li>
+                </ul>
+
+                <!-- MENÚ SECUNDARIO: siempre dentro del hamburguesa -->
+                <ul class="nav-secundaria">
+                    <li><a href="producto.html">Producto</a></li>
+                    <li><a href="comprar.html">Comprar</a></li>
+                    <li><a href="presupuesto.html">Presupuesto</a></li>
+                </ul>
+            </nav>
+
+            <!-- Ícono hamburguesa: AHORA SIEMPRE VISIBLE -->
+            <label for="menu-toggle" class="menu-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+
+        </div>
+    </header>
+
+  <main>
+    <h1>Calculador de Presupuestos</h1>
+    <p>Seleccioná el servicio, la cantidad y las condiciones para obtener un presupuesto estimado.</p>
+
+    <form id="form-presupuesto" novalidate>
+
+      <div class="campo">
+        <label for="servicio">Servicio:</label>
+        <select id="servicio" name="servicio" required>
+          <option value="">— Cargando servicios... —</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" name="cantidad"
+               min="1" value="1" required>
+      </div>
+
+      <div class="campo">
+        <label for="tipo-cliente">Tipo de cliente:</label>
+        <select id="tipo-cliente" name="tipo-cliente" required>
+          <option value="particular">Particular</option>
+          <option value="clinica">Clínica / Sanatorio</option>
+          <option value="obra-social">Obra Social / Prepaga</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="pago">Forma de pago:</label>
+        <select id="pago" name="pago" required>
+          <option value="efectivo">Efectivo</option>
+          <option value="transferencia" selected>Transferencia</option>
+          <option value="tarjeta">Tarjeta de crédito</option>
+        </select>
+      </div>
+
+      <div class="campo checkbox">
+        <input type="checkbox" id="con-iva" name="con-iva" checked>
+        <label for="con-iva">Incluir IVA (21%)</label>
+      </div>
+
+    </form>
+
+    <!-- Panel de resultados: el JS actualiza este bloque -->
+    <section id="resultado-presupuesto" aria-live="polite">
+      <h2>Resumen del presupuesto</h2>
+      <table id="tabla-resultado">
+        <tbody>
+          <tr><th>Subtotal</th><td id="out-subtotal">—</td></tr>
+          <tr><th>Descuento por volumen</th><td id="out-volumen">—</td></tr>
+          <tr><th>Descuento por cliente</th><td id="out-cliente">—</td></tr>
+          <tr><th>Ajuste por forma de pago</th><td id="out-pago">—</td></tr>
+          <tr><th>Subtotal con ajustes</th><td id="out-subtotal-ajustado">—</td></tr>
+          <tr><th>IVA (21%)</th><td id="out-iva">—</td></tr>
+          <tr class="total"><th>TOTAL</th><td id="out-total">—</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 La Tienda del Traumatólogo. Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

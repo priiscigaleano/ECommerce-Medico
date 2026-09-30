@@ -32,15 +32,19 @@ header {
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     padding: 15px 0;
     margin-bottom: 0;
+    position: relative;
 }
 
 .header-content {
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 100%;              
+    max-width: 100%;          
+    margin: 0;                
+    padding: 0 40px;          
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    justify-content: space-between;  /* logo ←→ nav */
+    box-sizing: border-box;   
+    position: relative;
 }
 
 .logo {
@@ -50,11 +54,33 @@ header {
 }
 
 .logo h1 {
-    font-family: 'Josefin Sans', sans-serif;
     margin: 0;
     font-size: 1.8em;
     color: #09246e;
     font-weight: 700;
+}
+
+/* El nav se empuja a la derecha con margin-left: auto */
+nav {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+/* ---- Menú principal (visible en desktop) ---- */
+.nav-principal {
+    display: flex;
+    list-style: none;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+/* ---- Menú secundario (siempre dentro del hamburguesa) ---- */
+.nav-secundaria {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 #menu-toggle {
@@ -62,10 +88,11 @@ header {
 }
 
 .menu-icon {
-    display: none;
-    cursor: pointer;
+    display: flex;
     flex-direction: column;
     gap: 5px;
+    cursor: pointer;
+    margin-left: 20px;
 }
 
 .menu-icon span {
@@ -77,20 +104,14 @@ header {
     transition: 0.3s;
 }
 
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-    margin: 0;
-    padding: 0;
-}
-
 nav a {
     font-weight: bold;
     color: #555;
     padding: 8px 15px;
     border-radius: 5px;
     transition: background 0.3s, color 0.3s;
+    display: block;
+    text-decoration: none;   
 }
 
 nav a:hover {
@@ -99,16 +120,55 @@ nav a:hover {
 }
 
 /* ==========================================
-   RESPONSIVE: MENÚ HAMBURGUESA
-   ========================================== */
-@media (max-width: 768px) {
-    .menu-icon {
-        display: flex;
+DESKTOP: menú secundario como dropdown
+========================================== */
+@media (min-width: 769px) {
+
+    /* El dropdown del menú secundario arranca cerrado */
+    .nav-secundaria {
+        position: absolute;
+        top: 100%;
+        right: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        min-width: 200px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+        z-index: 100;
+        flex-direction: column;
+        padding: 0;
+        margin-top: 5px;
     }
 
+    /* Cuando el checkbox está tildado, el dropdown se abre */
+    #menu-toggle:checked ~ nav .nav-secundaria {
+        max-height: 300px;
+        padding: 10px 0;
+    }
+
+    .nav-secundaria li a {
+        padding: 12px 20px;
+        text-align: left;
+        border-radius: 0;
+    }
+
+    .nav-secundaria li a:hover {
+        background-color: #f4f4f9;
+        color: #09246e;
+    }
+}
+
+/* ==========================================
+MOBILE: todo colapsa dentro del hamburguesa
+========================================== */
+@media (max-width: 768px) {
+
+    /* El nav entero se oculta y aparece como panel */
     nav {
         position: absolute;
-        top: 70px;
+        top: 100%;
         left: 0;
         width: 100%;
         background-color: white;
@@ -117,17 +177,25 @@ nav a:hover {
         overflow: hidden;
         transition: max-height 0.3s ease;
         z-index: 100;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        margin-left: 0;
     }
 
     #menu-toggle:checked ~ nav {
-        max-height: 300px;
+        max-height: 600px;
     }
 
-    nav ul {
+    /* Los dos <ul> se apilan verticalmente */
+    .nav-principal,
+    .nav-secundaria {
+        display: flex;
         flex-direction: column;
-        align-items: center;
-        padding: 20px 0;
+        align-items: stretch;
+        width: 100%;
         gap: 0;
+        padding: 0;
     }
 
     nav ul li {
@@ -135,29 +203,55 @@ nav a:hover {
         text-align: center;
     }
 
-    nav a {
-        display: block;
+    nav ul li a {
         padding: 15px 0;
         width: 100%;
+        border-radius: 0;
+        border-bottom: 1px solid #eee;
     }
 
     nav a:hover {
         background-color: #f4f4f9;
         color: #09246e;
     }
+
+    /* Empujar el hamburguesa a la derecha */
+    .menu-icon {
+        margin-left: auto;
+    }
+
+     .header-content {
+        padding: 0 15px;           /* menos padding lateral */
+    }
+
+    .logo {
+        gap: 8px;                  /* menos espacio entre ícono y texto */
+    }
+
+    .logo img {
+        width: 40px;               /* ícono más chico */
+        height: auto;
+    }
+
+    .logo h1 {
+        font-size: 1.1em;          /* texto más chico */
+        line-height: 1.2;
+        max-width: 180px;          /* evita que el texto empuje el hamburguesa */
+    }
+    
 }
 
 /* ==========================================
-   CONTENEDOR PRINCIPAL (HERO + ESQUELETO)
-   ========================================== */
+CONTENEDOR PRINCIPAL (HERO + ESQUELETO)
+========================================== */
 .contenedor-principal {
-    display: flex;
-    justify-content: center;
-    align-items: stretch; /* Fuerza a que ambas columnas tengan la misma altura */
+    display: grid;
+    grid-template-columns: 1fr 1fr;   /* dos columnas exactamente iguales */
     gap: 30px;
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    align-items: stretch;             /* estira ambas columnas al mismo alto */
     min-height: calc(100vh - 120px);
     box-sizing: border-box;
 }
@@ -165,17 +259,13 @@ nav a:hover {
 /* AMBAS COLUMNAS OCUPAN EXACTAMENTE EL 50% */
 .columna-hero,
 .columna-esqueleto {
-    flex: 1 1 50%;
-    max-width: 50%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 /* ==========================================
-   ESTILOS DEL HERO (IGUAL ALTURA AL ESQUELETO)
-   ========================================== */
+ESTILOS DEL HERO (IGUAL ALTURA AL ESQUELETO)
+========================================== */
 .hero {
     background: white;
     max-width: 100%;
@@ -199,7 +289,7 @@ nav a:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     height: 100%;
     justify-content: center;
 }
@@ -208,7 +298,7 @@ nav a:hover {
     background-color: transparent;
     border: none;
     width: 300px;
-    height: 290px;
+    height: 250px;
     object-fit: contain;
     flex-shrink: 0;
 }
@@ -239,23 +329,25 @@ nav a:hover {
     background: white;
     max-width: 100%;
     width: 100%;
+    height: 100%;
     margin: 0;
     padding: 25px;
     border-radius: 15px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     box-sizing: border-box;
     text-align: center;
-    min-height: 560px; /* MISMA ALTURA QUE EL HERO */
+    min-height: 600px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;   /* ← antes: center */
     align-items: center;
+    gap: 10px;                     /* ← separación uniforme entre títulos y esqueleto */
 }
 
 /* --- TÍTULOS --- */
 .seccion-titulos {
     max-width: 550px;
-    margin: 0 auto 25px auto;
+    margin: 0 auto;
     padding: 0 15px;
     text-align: center;
     box-sizing: border-box;
@@ -282,11 +374,12 @@ nav a:hover {
 }
 
 /* --- CONTENEDOR DEL ESQUELETO --- */
-/* --- CONTENEDOR DEL ESQUELETO --- */
 .esqueleto-interactivo {
     position: relative;
     width: 100%;
-    max-width: 280px; /* Asegúrate de que coincida con las coordenadas que pusiste */
+    max-width: 280px;
+    margin: 0 auto;
+    /* La imagen mantiene su proporción */
 }
 
 /* Imagen del esqueleto (AHORA ES ESTÁTICA PARA QUE EL MAPA COINCIDA) */
@@ -312,7 +405,6 @@ nav a:hover {
     transition: all 0.3s ease;
     white-space: nowrap;
     z-index: 10;
-    cursor: pointer;
     pointer-events: none; /* ¡CLAVE! Evita que el texto capture el clic */
 }
 
@@ -327,31 +419,40 @@ area { outline: none; }
    RESPONSIVE: PANTALLAS PEQUEÑAS
    ========================================== */
 @media (max-width: 900px) {
+
     .contenedor-principal {
-        flex-direction: column;
+        grid-template-columns: 1fr;   /* ← una sola columna */
         min-height: auto;
-        gap: 40px;
         max-width: 100%;
-        padding: 20px;
+        gap: 20px;
+        padding: 15px;
     }
+
     .columna-hero,
     .columna-esqueleto {
-        flex: 1 1 100%;
-        max-width: 100%;
         width: 100%;
+        max-width: 100%;
     }
+
     .hero,
     .caja-esqueleto {
-        min-height: auto; /* En móviles las cajas se adaptan al contenido */
-        max-width: 100%;
-        width: 100%;
+        min-height: auto;
+        height: auto;
+        padding: 20px 15px;
     }
-    .esqueleto-interactivo {
-        max-width: 300px;
-    }
+
+    /* Títulos ya no se fuerzan a una sola línea */
     .seccion-titulos h1,
     .seccion-titulos h2 {
-        white-space: normal;
+        white-space: normal;         /* ← clave */
+    }
+
+    .seccion-titulos h1 {
+        font-size: 1.3em;
+    }
+
+    .seccion-titulos h2 {
+        font-size: 0.9em;
     }
 }
 
@@ -662,8 +763,8 @@ td img {
 }
 
 /* ==========================================
-   FOOTER
-   ========================================== */
+FOOTER
+========================================== */
 footer {
     background-color: #09246e;
     color: white;
@@ -672,8 +773,8 @@ footer {
 }
 
 /* ==========================================
-   BOTÓN COMPRAR
-   ========================================== */
+BOTÓN COMPRAR
+========================================== */
 .btn-comprar {
     display: inline-block;
     background-color: #27ae60;
@@ -688,4 +789,100 @@ footer {
 
 .btn-comprar:hover {
     background-color: #219150;
+}
+
+/* ==========================================
+MÓDULO: CALCULADOR DE PRESUPUESTOS (Opción 5)
+========================================== */
+
+#form-presupuesto {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin: 30px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: left;
+}
+
+#form-presupuesto .campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#form-presupuesto .campo label {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+#form-presupuesto .campo input,
+#form-presupuesto .campo select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+#form-presupuesto .campo.checkbox {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+#form-presupuesto .campo.checkbox input {
+    width: auto;
+}
+
+#resultado-presupuesto {
+    max-width: 900px;
+    margin: 20px auto 60px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+#tabla-resultado {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+#tabla-resultado th,
+#tabla-resultado td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: left;
+    background: white;
+    border-radius: 0;
+    transition: none;
+}
+
+#tabla-resultado th {
+    color: #2c3e50;
+    width: 60%;
+}
+
+#tabla-resultado tr.total th,
+#tabla-resultado tr.total td {
+    font-weight: bold;
+    font-size: 1.25em;
+    color: #09246e;
+    border-top: 2px solid #09246e;
+    border-bottom: none;
+    padding-top: 18px;
+}
+
+#resultado-presupuesto .msg-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-weight: bold;
 }

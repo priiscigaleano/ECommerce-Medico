@@ -1,0 +1,45 @@
+{
+  "servicios": [
+    {
+      "id": "kit-basico",
+      "nombre": "Kit Quirúrgico Básico (Osteosíntesis)",
+      "precioUnitario": 85000,
+      "unidad": "kit"
+    },
+    {
+      "id": "kit-complejo",
+      "nombre": "Kit Quirúrgico Complejo (Placas + Tornillos)",
+      "precioUnitario": 215000,
+      "unidad": "kit"
+    },
+    {
+      "id": "esterilizacion",
+      "nombre": "Esterilización por Autoclave",
+      "precioUnitario": 12000,
+      "unidad": "lote"
+    },
+    {
+      "id": "logistica",
+      "nombre": "Logística y Entrega a Quirófano",
+      "precioUnitario": 18000,
+      "unidad": "envío"
+    }
+  ],
+  "descuentosPorVolumen": [
+    { "minimo": 1,  "maximo": 4,    "porcentaje": 0  },
+    { "minimo": 5,  "maximo": 9,    "porcentaje": 8  },
+    { "minimo": 10, "maximo": 19,   "porcentaje": 15 },
+    { "minimo": 20, "maximo": null, "porcentaje": 22 }
+  ],
+  "descuentosPorCliente": {
+    "particular":  { "etiqueta": "Particular",            "porcentaje": 0  },
+    "clinica":     { "etiqueta": "Clínica / Sanatorio",   "porcentaje": 10 },
+    "obra-social": { "etiqueta": "Obra Social / Prepaga", "porcentaje": 18 }
+  },
+  "ajustesPorPago": {
+    "efectivo":      { "etiqueta": "Efectivo",               "porcentaje": -5 },
+    "transferencia": { "etiqueta": "Transferencia bancaria", "porcentaje": 0  },
+    "tarjeta":       { "etiqueta": "Tarjeta de crédito",     "porcentaje": 7  }
+  },
+  "iva": 21
+}

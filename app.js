@@ -48,6 +48,52 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    /* ============================================================
+   MÓDULO 3: RESPONSIVE DEL ESQUELETO INTERACTIVO
+   Recalcula las coordenadas del <map> cuando cambia el tamaño
+   de la imagen (el <map> HTML solo acepta píxeles).
+   ============================================================ */
+    function inicializarEsqueletoResponsive() {
+        const img = document.querySelector('.esqueleto-img');
+        const areas = document.querySelectorAll('map[name="mapa-huesos"] area');
+        if (!img || areas.length === 0) return;
+
+        // Guardamos las coordenadas originales una sola vez
+        areas.forEach((area) => {
+            if (!area.dataset.originalCoords) {
+                area.dataset.originalCoords = area.getAttribute('coords');
+            }
+        });
+
+        function reescalarMapa() {
+            // Si la imagen todavía no cargó, esperamos
+            if (!img.naturalWidth) return;
+
+            const factor = img.clientWidth / img.naturalWidth;
+
+            areas.forEach((area) => {
+                const [x, y, r] = area.dataset.originalCoords.split(',').map(Number);
+                area.setAttribute(
+                    'coords',
+                    `${Math.round(x * factor)},${Math.round(y * factor)},${Math.round(r * factor)}`
+                );
+            });
+        }
+
+        // Recalcular cuando la imagen termine de cargar
+        if (img.complete) {
+            reescalarMapa();
+        } else {
+            img.addEventListener('load', reescalarMapa);
+        }
+
+        // Recalcular cuando cambia el tamaño de la ventana
+        window.addEventListener('resize', reescalarMapa);
+    }
+
+    // Llamada a la inicialización
+    inicializarEsqueletoResponsive();
+
     // Desacoplamiento para el botón de cerrar sesión
     if (btnLogout) {
         btnLogout.addEventListener('click', () => {
