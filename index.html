@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Tienda del Traumatólogo </title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&family=Almendra:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="logo">
+             <img src="img/logo-tienda.png" alt="Logo TraumaShop" width="60">   
+             <h1>La Tienda del Traumatólogo</h1>
+            </div>
+
+            <input type="checkbox" id="menu-toggle">
+            <label for="menu-toggle" class="menu-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+
+            <nav>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="listado_tabla.html">Listado Tabla</a></li>
+                    <li><a href="listado_box.html">Listado Box</a></li>
+                    <li><a href="producto.html">Producto</a></li>
+                    <li><a href="comprar.html">Comprar</a></li>
+                    <li><a href="login.html">Ingresar</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- CONTENEDOR PRINCIPAL -->
+        <div class="contenedor-principal">
+            
+            <!-- COLUMNA IZQUIERDA: HERO (Con texto extra para llenar el espacio) -->
+            <div class="columna-hero">
+                <section class="hero">
+                    <h2>Bienvenido</h2>
+
+                    <div class="hero-contenido">
+                        <img src="img/imagenindex.jpg" alt="Imagen representativa de TraumaShop" class="hero-image">
+                        
+                        <div class="hero-text">
+                            <p>
+                             Ofrecemos productos especializados en salud musculoesquelética, respaldados por el <strong>Instituto de Traumatología</strong>.
+                            </p>
+                            <p>
+                                Nuestro catálogo incluye una amplia variedad de férulas, ortesis, placas, tornillos y kits de osteosíntesis, diseñados para satisfacer las necesidades de los profesionales de la salud.
+                            </p>
+                            
+                            <p>
+                                Explora nuestro catálogo y encuentra el apoyo que necesitas para tu recuperación y bienestar.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- COLUMNA DERECHA: ESQUELETO (No se toca nada) -->
+            <div class="columna-esqueleto">
+                <div class="caja-esqueleto">
+                    <div class="seccion-titulos">
+                        <h1>Presiona un Hueso para Ver los Productos</h1>
+                        <h2>PLACAS Y TORNILLOS PARA OSTEOSINTESIS</h2>
+                    </div>
+
+                    <div class="esqueleto-interactivo">
+                        <!-- IMAGEN (Asegúrate de que el tamaño sea el correcto en el CSS) -->
+                        <img src="img/esqueleto.png" usemap="#mapa-huesos" class="esqueleto-img" alt="Esqueleto interactivo">
+
+                        <!-- MAPA CON COORDENADAS EN PÍXELES  -->
+                        <map name="mapa-huesos">
+                            <!-- Clavícula (coords originales: 155,118) -->
+                            <area shape="circle" coords="125,90,15" href="producto.html#clavicula" alt="Clavícula">
+                            <!-- Húmero (coords originales: 258,156) -->
+                            <area shape="circle" coords="210,142,15" href="producto.html#humero" alt="Húmero">
+                            <!-- Antebrazo (coords originales: 119,249) -->
+                            <area shape="circle" coords="90,200,15" href="producto.html#antebrazo" alt="Antebrazo">
+                            <!-- Radio y Cúbito (coords originales: 113,304) -->
+                            <area shape="circle" coords="85,230,15" href="producto.html#radio-cubito" alt="Radio y Cúbito">
+                            <!-- Mano (coords originales: 226,270) - Separada de Cadera para que no se superpongan -->
+                            <area shape="circle" coords="226,250,15" href="producto.html#mano" alt="Mano">
+                            <!-- Cadera (coords originales: 226,270) - Nota: originalmente coincidían, separa si quieres -->
+                            <area shape="circle" coords="180,205,15" href="producto.html#cadera" alt="Cadera">
+                            <!-- Fémur (coords originales: 161,374) -->
+                            <area shape="circle" coords="169,285,15" href="producto.html#femur" alt="Fémur">
+                            <!-- Tibia (coords originales: 166,489) -->
+                            <area shape="circle" coords="180,390,15" href="producto.html#tibia" alt="Tibia">
+                            <!-- Peroné (coords originales: 169,554) -->
+                            <area shape="circle" coords="130,430,15" href="producto.html#perone" alt="Peroné">
+                            <!-- Pie (coords originales: 224,568) -->
+                            <area shape="circle" coords="175,440,15" href="producto.html#pie" alt="Pie">
+                        </map>
+
+                        <!-- TEXTOS FLOTANTES -->
+                        <div class="texto-hueso" style="top: 90px; left: 125px;">Clavícula</div>
+                        <div class="texto-hueso" style="top: 142px; left: 210px;">Húmero</div>
+                        <div class="texto-hueso" style="top: 200px; left: 90px;">Antebrazo</div>
+                        <div class="texto-hueso" style="top: 230px; left: 85px;">Radio y Cúbito</div>
+                        <div class="texto-hueso" style="top: 250px; left: 226px;">Mano</div>
+                        <div class="texto-hueso" style="top: 205px; left: 180px;">Cadera</div>
+                        <div class="texto-hueso" style="top: 285px; left: 169px;">Fémur</div>
+                        <div class="texto-hueso" style="top: 390px; left: 180px;">Tibia</div>
+                        <div class="texto-hueso" style="top: 430px; left: 130px;">Peroné</div>
+                        <div class="texto-hueso" style="top: 440px; left: 175px;">Pie</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 La Tienda del Traumatólogo. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>
