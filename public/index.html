@@ -42,100 +42,104 @@
   <footer><p>&copy; 2026 La Tienda del Traumatólogo. Todos los derechos reservados.</p></footer>
 
   <template id="tpl-inicio">
-<div class="contenedor-principal">
+    <div class="contenedor-principal">
             
-            <!-- COLUMNA IZQUIERDA: HERO (Con texto extra para llenar el espacio) -->
-            <div class="columna-hero">
-                <section class="hero">
-                    <h2>Bienvenido</h2>
+        <!-- COLUMNA IZQUIERDA: HERO (Con texto extra para llenar el espacio) -->
+        <div class="columna-hero">
+            <section class="hero">
+                <h2>Bienvenido</h2>
 
-                    <div class="hero-contenido">
-                        <img src="img/imagenindex.jpg" alt="Imagen representativa de TraumaShop" class="hero-image">
+                <div class="hero-contenido">
+                    <img src="img/imagenindex.jpg" alt="Imagen representativa de TraumaShop" class="hero-image">
+                    
+                    <div class="hero-text">
+                        <p>
+                         Ofrecemos productos especializados en salud musculoesquelética, respaldados por el <strong>Instituto de Traumatología</strong>.
+                        </p>
+                        <p>
+                            Nuestro catálogo incluye una amplia variedad de férulas, ortesis, placas, tornillos y kits de osteosíntesis, diseñados para satisfacer las necesidades de los profesionales de la salud.
+                        </p>
                         
-                        <div class="hero-text">
-                            <p>
-                             Ofrecemos productos especializados en salud musculoesquelética, respaldados por el <strong>Instituto de Traumatología</strong>.
-                            </p>
-                            <p>
-                                Nuestro catálogo incluye una amplia variedad de férulas, ortesis, placas, tornillos y kits de osteosíntesis, diseñados para satisfacer las necesidades de los profesionales de la salud.
-                            </p>
-                            
-                            <p>
-                                Explora nuestro catálogo y encuentra el apoyo que necesitas para tu recuperación y bienestar.
-                            </p>
-                        </div>
-                    </div>
-                </section>
-            </div>
-
-            <!-- COLUMNA DERECHA: ESQUELETO (No se toca nada) -->
-            <div class="columna-esqueleto">
-                <div class="caja-esqueleto">
-                    <div class="seccion-titulos">
-                        <h1>Presiona un Hueso para Ver los Productos</h1>
-                        <h2>PLACAS Y TORNILLOS PARA OSTEOSINTESIS</h2>
-                    </div>
-
-                    <div class="esqueleto-interactivo">
-                        <!-- IMAGEN (Asegúrate de que el tamaño sea el correcto en el CSS) -->
-                        <img src="img/esqueleto.png" usemap="#mapa-huesos" class="esqueleto-img" alt="Esqueleto interactivo">
-
-                        <!-- MAPA CON COORDENADAS EN PÍXELES  -->
-                        <map name="mapa-huesos">
-                            <!-- Clavícula (coords originales: 155,118) -->
-                            <area shape="circle" coords="105,90,15" href="#/catalogo" alt="Clavícula">
-                            <!-- Húmero (coords originales: 258,156) -->
-                            <area shape="circle" coords="200,142,15" href="#/catalogo" alt="Húmero">
-                            <!-- Antebrazo (coords originales: 119,249) -->
-                            <area shape="circle" coords="90,200,15" href="#/catalogo" alt="Antebrazo">
-                            <!-- Radio y Cúbito (coords originales: 113,304) -->
-                            <area shape="circle" coords="85,230,15" href="#/catalogo" alt="Radio y Cúbito">
-                            <!-- Mano (coords originales: 226,270) - Separada de Cadera para que no se superpongan -->
-                            <area shape="circle" coords="223,245,15" href="#/catalogo" alt="Mano">
-                            <!-- Cadera (coords originales: 226,270) - Nota: originalmente coincidían, separa si quieres -->
-                            <area shape="circle" coords="160,205,15" href="#/catalogo" alt="Cadera">
-                            <!-- Fémur (coords originales: 161,374) -->
-                            <area shape="circle" coords="169,285,15" href="#/catalogo" alt="Fémur">
-                            <!-- Tibia (coords originales: 166,489) -->
-                            <area shape="circle" coords="180,360,15" href="#/catalogo" alt="Tibia">
-                            <!-- Peroné (coords originales: 169,554) -->
-                            <area shape="circle" coords="130,400,15" href="#/catalogo" alt="Peroné">
-                            <!-- Pie (coords originales: 224,568) -->
-                            <area shape="circle" coords="175,420,15" href="#/catalogo" alt="Pie">
-                        </map>
-
-                        <!-- TEXTOS FLOTANTES -->
-                        <div class="texto-hueso" style="top: 20.95%; left: 35%;">Clavícula</div>
-                        <div class="texto-hueso" style="top: 33.05%; left: 70.00%;">Húmero</div>
-                        <div class="texto-hueso" style="top: 46.55%; left: 32.14%;">Antebrazo</div>
-                        <div class="texto-hueso" style="top: 53.53%; left: 30.36%;">Radio y Cúbito</div>
-                        <div class="texto-hueso" style="top: 56%; left: 76%;">Mano</div>
-                        <div class="texto-hueso" style="top: 45%; left: 60%;">Cadera</div>
-                        <div class="texto-hueso" style="top: 66.33%; left: 60.36%;">Fémur</div>
-                        <div class="texto-hueso" style="top: 85%; left: 64.29%;">Tibia</div>
-                        <div class="texto-hueso" style="top: 93%; left: 46.43%;">Peroné</div>
-                        <div class="texto-hueso" style="top: 95%; left: 62.50%;">Pie</div>
+                        <p>
+                            Explora nuestro catálogo y encuentra el apoyo que necesitas para tu recuperación y bienestar.
+                        </p>
                     </div>
                 </div>
-            </div>
-
+            </section>
         </div>
+
+        <!-- COLUMNA DERECHA: ESQUELETO -->
+        <div class="columna-esqueleto">
+            <div class="caja-esqueleto">
+                <div class="seccion-titulos">
+                    <h1>Presiona un Hueso para Ver los Productos</h1>
+                    <h2>PLACAS Y TORNILLOS PARA OSTEOSINTESIS</h2>
+                </div>
+
+                <div class="esqueleto-interactivo">
+                    <!-- IMAGEN CON ID PARA RECALIBRADO RESPONSIVE -->
+                    <img src="img/esqueleto.png" usemap="#mapa-huesos" class="esqueleto-img" id="img-esqueleto" alt="Esqueleto interactivo">
+
+                    <!-- MAPA CON ATRIBUTOS data-zona PARA FILTRADO DINÁMICO EN LA SPA -->
+                    <map name="mapa-huesos" id="mapa-huesos">
+                        <area shape="circle" coords="105,90,15" href="#/catalogo?zona=clavicula" data-zona="clavicula" alt="Clavícula">
+                        <area shape="circle" coords="200,142,15" href="#/catalogo?zona=humero" data-zona="humero" alt="Húmero">
+                        <area shape="circle" coords="90,200,15" href="#/catalogo?zona=antebrazo" data-zona="antebrazo" alt="Antebrazo">
+                        <area shape="circle" coords="85,230,15" href="#/catalogo?zona=antebrazo" data-zona="antebrazo" alt="Radio y Cúbito">
+                        <area shape="circle" coords="223,245,15" href="#/catalogo?zona=mano" data-zona="mano" alt="Mano">
+                        <area shape="circle" coords="160,205,15" href="#/catalogo?zona=cadera" data-zona="cadera" alt="Cadera">
+                        <area shape="circle" coords="169,285,15" href="#/catalogo?zona=femur" data-zona="femur" alt="Fémur">
+                        <area shape="circle" coords="180,360,15" href="#/catalogo?zona=tibia" data-zona="tibia" alt="Tibia">
+                        <area shape="circle" coords="130,400,15" href="#/catalogo?zona=perone" data-zona="perone" alt="Peroné">
+                        <area shape="circle" coords="175,420,15" href="#/catalogo?zona=pie" data-zona="pie" alt="Pie">
+                    </map>
+
+                    <!-- TEXTOS FLOTANTES -->
+                    <div class="texto-hueso" style="top: 20.95%; left: 35%;">Clavícula</div>
+                    <div class="texto-hueso" style="top: 33.05%; left: 70.00%;">Húmero</div>
+                    <div class="texto-hueso" style="top: 46.55%; left: 32.14%;">Antebrazo</div>
+                    <div class="texto-hueso" style="top: 53.53%; left: 30.36%;">Radio y Cúbito</div>
+                    <div class="texto-hueso" style="top: 56%; left: 76%;">Mano</div>
+                    <div class="texto-hueso" style="top: 45%; left: 60%;">Cadera</div>
+                    <div class="texto-hueso" style="top: 66.33%; left: 60.36%;">Fémur</div>
+                    <div class="texto-hueso" style="top: 85%; left: 64.29%;">Tibia</div>
+                    <div class="texto-hueso" style="top: 93%; left: 46.43%;">Peroné</div>
+                    <div class="texto-hueso" style="top: 95%; left: 62.50%;">Pie</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Contenedor donde se cargarán los productos al hacer clic en el esqueleto -->
+    <div id="resultados-zona" class="contenedor-resultados-zona" style="margin-top: 2rem; padding: 1rem;"></div>
   </template>
 
   <template id="tpl-catalogo">
     <section class="contenedor-productos" aria-labelledby="t-cat">
       <h2 id="t-cat">Catálogo de productos</h2>
       <p id="cat-estado" role="status"></p>
-      <div class="tabla-scroll">
-        <table class="product-table">
-          <caption class="sr-only">Listado de productos con precio y stock</caption>
-          <thead><tr>
-            <th scope="col">ID</th><th scope="col">Producto</th><th scope="col">Descripción</th>
-            <th scope="col">Precio</th><th scope="col">Stock</th><th scope="col" id="th-acciones" hidden>Acciones</th>
-          </tr></thead>
-          <tbody id="cat-cuerpo"></tbody>
-        </table>
+      
+      <!-- Controles para alternar entre Vista Grilla (Box) y Vista Tabla -->
+      <div class="controles-vista" style="margin-bottom: 1rem; display: flex; gap: 0.5rem;">
+        <button type="button" id="btn-vista-box" class="btn-sec">Vista Tarjetas</button>
+        <button type="button" id="btn-vista-tabla" class="btn-sec">Vista Tabla</button>
       </div>
+
+      <!-- Contenedor dinámico de productos (soporta tanto grid de tarjetas como tabla) -->
+      <div id="catalogo-contenido-dinamico">
+        <div class="tabla-scroll">
+          <table class="product-table">
+            <caption class="sr-only">Listado de productos con precio y stock</caption>
+            <thead><tr>
+              <th scope="col">ID</th><th scope="col">Producto</th><th scope="col">Descripción</th>
+              <th scope="col">Precio</th><th scope="col">Stock</th><th scope="col" id="th-acciones" hidden>Acciones</th>
+            </tr></thead>
+            <tbody id="cat-cuerpo"></tbody>
+          </table>
+        </div>
+      </div>
+
       <form id="form-producto" hidden>
         <h3 id="t-form">Nuevo producto</h3>
         <input type="hidden" id="p-id">
