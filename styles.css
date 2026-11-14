@@ -857,3 +857,26 @@ footer {
     margin-bottom: 15px;
     font-weight: bold;
 }
+
+/* ==========================================
+   AE4: SPA + ACCESIBILIDAD (WCAG 2.1)
+   ========================================== */
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.saltar{position:absolute;left:-999px;top:0;background:#09246e;color:#fff;padding:10px 16px;z-index:200;border-radius:0 0 6px 0}
+.saltar:focus{left:0}
+:focus-visible{outline:3px solid #1a73e8;outline-offset:2px}
+#vista:focus{outline:none}
+button.menu-icon{background:none;border:0;cursor:pointer}
+.menu-icon{display:none}
+@media (max-width:1024px){.menu-icon{display:flex}}
+nav.menu-secundario.abierto{display:block}
+.seccion-titulos h2{color:#566264}
+.msg-error{color:#b00020;font-weight:600}
+.msg-ok{color:#1e6b3a;font-weight:600}
+.tabla-scroll{overflow-x:auto}
+.product-table td.acciones{white-space:nowrap}
+.btn-sec,.btn-peq{border:0;border-radius:6px;cursor:pointer;color:#fff;font-weight:600}
+.btn-sec{background:#566264;padding:10px 20px}
+.btn-peq{background:#09246e;padding:6px 10px;margin-right:4px}
+.btn-peq.peligro{background:#b00020}
+#form-producto{max-width:500px;margin:24px auto;text-align:left}
