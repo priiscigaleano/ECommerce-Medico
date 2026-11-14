@@ -82,6 +82,17 @@ header {
     flex-direction: column;
     gap: 5px;
     padding: 8px;
+    margin-left: 5px; /* poca separación con el último link */
+}
+
+/* Los links principales se pegan a la hamburguesa (logo a la izquierda, resto a la derecha) */
+.header-content > nav:not(.menu-secundario) {
+    margin-left: auto;
+}
+
+/* Links principales repetidos dentro del menú hamburguesa: solo visibles al comprimir */
+.item-movil {
+    display: none;
 }
 
 .menu-icon span {
@@ -147,6 +158,27 @@ nav a:hover {
 /* ==========================================
    RESPONSIVE: MENÚ HAMBURGUESA
    ========================================== */
+/* Al comprimirse la pantalla, TODOS los links pasan al menú hamburguesa */
+@media (max-width: 1024px) {
+    .header-content > nav:not(.menu-secundario) {
+        display: none;
+    }
+
+    .item-movil {
+        display: block;
+    }
+
+    .item-movil-fin {
+        border-bottom: 1px solid #e6e6ee;
+        padding-bottom: 8px;
+        margin-bottom: 8px;
+    }
+
+    .header-content {
+        justify-content: space-between;
+    }
+}
+
 @media (max-width: 768px) {
     .header-content {
         flex-wrap: wrap;
@@ -161,18 +193,8 @@ nav a:hover {
         font-size: 1.25em;
     }
 
-    .header-content > nav:not(.menu-secundario) {
-        order: 3;
-        width: 100%;
-    }
-
-    .nav-principal {
-        justify-content: center;
-        gap: 4px;
-    }
-
-    .nav-principal a {
-        padding: 10px 8px;
+    .menu-icon {
+        margin-left: 0; /* para que entre en la misma fila que el logo */
     }
 
     nav.menu-secundario {
@@ -242,20 +264,24 @@ nav a:hover {
     align-items: center;
     gap: 15px;
     height: 100%;
-    justify-content: center;
+    justify-content: flex-start; /* la imagen queda pegada al título */
 }
 
 .hero-image {
     background-color: transparent;
     border: none;
-    width: 300px;
-    height: 290px;
+    width: 100%;
+    max-width: 420px;
+    height: auto; /* sin caja más alta que la imagen: no queda aire arriba */
+    /* el archivo trae ~55px de espacio en blanco arriba: lo recortamos y subimos la imagen */
+    clip-path: inset(45px 0 0 0);
+    margin-top: -45px;
     object-fit: contain;
     flex-shrink: 0;
 }
 
 .hero-text {
-    max-width: 400px;
+    max-width: 480px;
 }
 
 .hero-text p {
@@ -282,7 +308,7 @@ nav a:hover {
     max-width: 100%;
     width: 100%;
     margin: 0;
-    padding: 40px 30px;
+    padding: 25px 20px 35px; /* arriba igual que .hero (25px); abajo más aire para la etiqueta del pie */
     border-radius: 15px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     box-sizing: border-box;
@@ -290,22 +316,22 @@ nav a:hover {
     min-height: 560px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; /* títulos arriba, igual que el hero */
     align-items: center;
 }
 
 /* --- TÍTULOS --- */
 .seccion-titulos {
     width: 100%;
-    max-width: 550px;
+    max-width: 100%;
     margin: 0 auto 25px auto;
-    padding: 0 15px;
+    padding: 0;
     text-align: center;
     box-sizing: border-box;
 }
 
 .seccion-titulos h1 {
-    font-size: 1.5em;
+    font-size: 1.4em;
     margin: 0 0 10px 0;
     line-height: 1.2;
     color: #2c3e50;
@@ -329,7 +355,9 @@ nav a:hover {
 .esqueleto-interactivo {
     position: relative;
     width: 100%;
-    max-width: 280px; /* Asegúrate de que coincida con las coordenadas que pusiste */
+    max-width: 340px; /* tamaño del esqueleto; las zonas clicables y etiquetas se reescalan solas */
+    margin-top: auto;    /* centra el esqueleto en el espacio que queda debajo de los títulos */
+    margin-bottom: auto;
 }
 
 /* Imagen del esqueleto (AHORA ES ESTÁTICA PARA QUE EL MAPA COINCIDA) */
@@ -347,8 +375,8 @@ nav a:hover {
     color: white;
     border: none;
     border-radius: 20px;
-    padding: 2px 6px;
-    font-size: 9px;
+    padding: calc(2px * var(--escala, 1)) calc(6px * var(--escala, 1));
+    font-size: calc(9px * var(--escala, 1));
     font-weight: bold;
     text-decoration: none;
     box-shadow: 0 1px 2px rgba(0,0,0,0.3);
@@ -391,7 +419,7 @@ area { outline: none; }
         width: 100%;
     }
     .esqueleto-interactivo {
-        max-width: 300px;
+        max-width: 320px;
     }
     .seccion-titulos h1,
     .seccion-titulos h2 {
