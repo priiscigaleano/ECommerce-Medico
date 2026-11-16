@@ -1065,7 +1065,7 @@ nav.menu-secundario.abierto{display:block}
   display: flex;
   align-items: center;
   text-align: center;
-  color: #888;
+  color: #595959;
   font-size: 0.75rem;
   margin: 1rem 0;
 }
@@ -1086,7 +1086,7 @@ nav.menu-secundario.abierto{display:block}
 .auth-footer-copy {
   margin-top: 1.5rem;
   font-size: 0.7rem;
-  color: #aaa;
+  color: #595959;
   text-align: center;
 }
 
@@ -1172,3 +1172,4 @@ nav.menu-secundario.abierto{display:block}
     max-height: none;
   }
 }
+.enlace-volver{display:inline-block;margin:0 0 12px;font-weight:600}

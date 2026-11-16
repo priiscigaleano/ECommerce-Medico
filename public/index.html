@@ -87,16 +87,16 @@
 
             <!-- MAPA CON ATRIBUTOS data-zona PARA FILTRADO DINÁMICO EN LA SPA -->
             <map name="mapa-huesos" id="mapa-huesos">
-              <area shape="circle" coords="105,90,15" href="#/catalogo?zona=clavicula" data-zona="clavicula" alt="Clavícula">
-              <area shape="circle" coords="200,142,15" href="#/catalogo?zona=humero" data-zona="humero" alt="Húmero">
-              <area shape="circle" coords="90,200,15" href="#/catalogo?zona=antebrazo" data-zona="antebrazo" alt="Antebrazo">
-              <area shape="circle" coords="85,230,15" href="#/catalogo?zona=antebrazo" data-zona="antebrazo" alt="Radio y Cúbito">
-              <area shape="circle" coords="223,245,15" href="#/catalogo?zona=mano" data-zona="mano" alt="Mano">
-              <area shape="circle" coords="160,205,15" href="#/catalogo?zona=cadera" data-zona="cadera" alt="Cadera">
-              <area shape="circle" coords="169,285,15" href="#/catalogo?zona=femur" data-zona="femur" alt="Fémur">
-              <area shape="circle" coords="180,360,15" href="#/catalogo?zona=tibia" data-zona="tibia" alt="Tibia">
-              <area shape="circle" coords="130,400,15" href="#/catalogo?zona=perone" data-zona="perone" alt="Peroné">
-              <area shape="circle" coords="175,420,15" href="#/catalogo?zona=pie" data-zona="pie" alt="Pie">
+              <area shape="circle" coords="105,90,15" href="#/catalogo?area=clavicula" data-area="clavicula" alt="Clavícula">
+              <area shape="circle" coords="200,142,15" href="#/catalogo?area=humero" data-area="humero" alt="Húmero">
+              <area shape="circle" coords="90,200,15" href="#/catalogo?area=antebrazo" data-area="antebrazo" alt="Antebrazo">
+              <area shape="circle" coords="85,230,15" href="#/catalogo?area=radio-cubito" data-area="radio-cubito" alt="Radio y Cúbito">
+              <area shape="circle" coords="223,245,15" href="#/catalogo?area=mano" data-area="mano" alt="Mano">
+              <area shape="circle" coords="160,205,15" href="#/catalogo?area=cadera" data-area="cadera" alt="Cadera">
+              <area shape="circle" coords="169,285,15" href="#/catalogo?area=femur" data-area="femur" alt="Fémur">
+              <area shape="circle" coords="180,360,15" href="#/catalogo?area=tibia" data-area="tibia" alt="Tibia">
+              <area shape="circle" coords="130,400,15" href="#/catalogo?area=perone" data-area="perone" alt="Peroné">
+              <area shape="circle" coords="175,420,15" href="#/catalogo?area=pie" data-area="pie" alt="Pie">
             </map>
 
             <!-- TEXTOS FLOTANTES -->
@@ -173,6 +173,10 @@
         <div class="form-group">
           <label for="p-categoria">Categoría:</label>
           <input type="text" id="p-categoria" value="osteosintesis" maxlength="40">
+        </div>
+        <div class="form-group">
+          <label for="p-area">Zona del esqueleto:</label>
+          <select id="p-area"><option value="">— Sin zona —</option><option value="clavicula">Clavícula</option><option value="humero">Húmero</option><option value="antebrazo">Antebrazo</option><option value="radio-cubito">Radio y Cúbito</option><option value="mano">Mano</option><option value="cadera">Cadera</option><option value="femur">Fémur</option><option value="tibia">Tibia</option><option value="perone">Peroné</option><option value="pie">Pie</option></select>
         </div>
         <button type="submit" class="btn-submit">Guardar</button>
         <button type="button" class="btn-sec" id="p-cancelar">Cancelar</button>

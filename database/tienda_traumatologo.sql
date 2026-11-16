@@ -34,7 +34,9 @@ CREATE TABLE productos (
   precio      DECIMAL(10,2) NOT NULL CHECK (precio >= 0),
   stock       INT UNSIGNED NOT NULL DEFAULT 0,
   categoria   VARCHAR(40)  NOT NULL DEFAULT 'osteosintesis',
-  INDEX idx_productos_categoria (categoria)
+  area        VARCHAR(30)  NULL,                -- zona anatómica del esqueleto interactivo (NULL = sin zona)
+  INDEX idx_productos_categoria (categoria),
+  INDEX idx_productos_area (area)
 ) ENGINE=InnoDB;
 
 -- UC4: cabecera de la orden (datos de envío y medio de pago del formulario de compra)
@@ -67,23 +69,27 @@ CREATE TABLE pedido_items (
   CONSTRAINT fk_items_producto FOREIGN KEY (producto_id) REFERENCES productos(id) ON DELETE RESTRICT
 ) ENGINE=InnoDB;
 
-INSERT INTO productos (nombre, descripcion, precio, stock, categoria) VALUES
-  ('Férula de Muñeca', 'Férula ajustable para inmovilización de muñeca', 25000, 15, 'ortopedia'),
-  ('Ortesis de Rodilla', 'Ortesis con bisagras para soporte de rodilla', 45000, 10, 'ortopedia'),
-  ('Collares Cervicales', 'Collares cervicales ortopédicos para descanso', 18000, 20, 'ortopedia'),
-  ('Muletas de Aluminio', 'Muletas ligeras de aluminio, ajustables en altura', 32000, 8, 'ortopedia'),
-  ('Faja Lumbar', 'Faja elástica de soporte para la zona lumbar', 28000, 12, 'ortopedia'),
-  ('Placa DCP Reconstrucción', 'Placa para reconstrucción ósea en cadera', 500, 5, 'osteosintesis'),
-  ('Placa Bloqueada', 'Placa bloqueada para fijación ósea', 600, 7, 'osteosintesis'),
-  ('Kit Instrumental', 'Kit completo de instrumentos quirúrgicos', 45000, 3, 'osteosintesis'),
-  ('Tornillo Bloqueado 3.5', 'Tornillo bloqueado de 3.5 mm para fijación ósea', 354.67, 10, 'osteosintesis'),
-  ('Placa Bloqueada en T', 'Placa bloqueada en forma de T para tibia', 2006.13, 4, 'osteosintesis'),
-  ('Placa Bloqueada Ligera', 'Placa bloqueada ligera para tibia', 2674.93, 6, 'osteosintesis'),
-  ('Placa de Mano', 'Placa para fijación ósea en mano', 1200, 9, 'osteosintesis'),
-  ('Placa de Antebrazo', 'Placa para fijación ósea en antebrazo', 1500, 5, 'osteosintesis'),
-  ('Placa de Húmero', 'Placa para fijación ósea en húmero', 1800, 7, 'osteosintesis'),
-  ('Placa de Clavícula', 'Placa para fijación ósea en clavícula', 1100, 8, 'osteosintesis'),
-  ('Placa de Peroné', 'Placa para fijación ósea en peroné', 1400, 6, 'osteosintesis');
+INSERT INTO productos (nombre, descripcion, precio, stock, categoria, area) VALUES
+  ('Férula de Muñeca', 'Férula ajustable para inmovilización de muñeca', 25000, 15, 'ortopedia', 'mano'),
+  ('Ortesis de Rodilla', 'Ortesis con bisagras para soporte de rodilla', 45000, 10, 'ortopedia', NULL),
+  ('Collares Cervicales', 'Collares cervicales ortopédicos para descanso', 18000, 20, 'ortopedia', NULL),
+  ('Muletas de Aluminio', 'Muletas ligeras de aluminio, ajustables en altura', 32000, 8, 'ortopedia', NULL),
+  ('Faja Lumbar', 'Faja elástica de soporte para la zona lumbar', 28000, 12, 'ortopedia', NULL),
+  ('Placa DCP Reconstrucción', 'Placa para reconstrucción ósea en cadera', 500, 5, 'osteosintesis', 'cadera'),
+  ('Placa Bloqueada', 'Placa bloqueada para fijación ósea', 600, 7, 'osteosintesis', 'cadera'),
+  ('Kit Instrumental', 'Kit completo de instrumentos quirúrgicos', 45000, 3, 'osteosintesis', 'cadera'),
+  ('Tornillo Bloqueado 3.5', 'Tornillo bloqueado de 3.5 mm para fijación ósea', 354.67, 10, 'osteosintesis', 'cadera'),
+  ('Placa Bloqueada en T', 'Placa bloqueada en forma de T para tibia', 2006.13, 4, 'osteosintesis', 'tibia'),
+  ('Placa Bloqueada Ligera', 'Placa bloqueada ligera para tibia', 2674.93, 6, 'osteosintesis', 'tibia'),
+  ('Placa de Mano', 'Placa para fijación ósea en mano', 1200, 9, 'osteosintesis', 'mano'),
+  ('Placa de Antebrazo', 'Placa para fijación ósea en antebrazo', 1500, 5, 'osteosintesis', 'antebrazo'),
+  ('Placa de Húmero', 'Placa para fijación ósea en húmero', 1800, 7, 'osteosintesis', 'humero'),
+  ('Placa de Clavícula', 'Placa para fijación ósea en clavícula', 1100, 8, 'osteosintesis', 'clavicula'),
+  ('Placa de Peroné', 'Placa para fijación ósea en peroné', 1400, 6, 'osteosintesis', 'perone'),
+  ('Placa DCP Tubo Doble Pared 135°', 'Placa DCP en tubo de doble pared a 135° para fémur', 1859.47, 6, 'osteosintesis', 'femur'),
+  ('Tornillo Bloqueado 6.5 Canulado', 'Tornillo bloqueado canulado de 6.5 mm para fémur', 1859.47, 8, 'osteosintesis', 'femur'),
+  ('Placa Bloqueada/DCP Mano en T Oblicua', 'Placa en T oblicua para fracturas distales de radio y cúbito', 3972.27, 4, 'osteosintesis', 'radio-cubito'),
+  ('Mini Placa de Pie', 'Mini placas y tornillos para fracturas de pie', 3454.13, 6, 'osteosintesis', 'pie');
 
 -- Usuario administrador de DEMO (cambiar la contraseña en producción).
 -- Credenciales: admin@tienda.com / Admin123!

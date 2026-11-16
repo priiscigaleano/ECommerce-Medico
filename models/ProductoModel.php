@@ -8,14 +8,15 @@ class ProductoModel
 
     public function __construct() { $this->pdo = Conexion::getInstancia(); }
 
-    public function listar(?string $categoria = null): array
+    /** Filtros opcionales por categoría y/o zona. Sin concatenar SQL: (:x IS NULL OR col = :x2). */
+    public function listar(?string $categoria = null, ?string $area = null): array
     {
-        if ($categoria !== null) {
-            $st = $this->pdo->prepare('SELECT * FROM productos WHERE categoria = :cat ORDER BY id');
-            $st->execute([':cat' => $categoria]);
-        } else {
-            $st = $this->pdo->query('SELECT * FROM productos ORDER BY id');
-        }
+        $st = $this->pdo->prepare(
+            'SELECT * FROM productos
+             WHERE (:cat IS NULL OR categoria = :cat2) AND (:area IS NULL OR area = :area2)
+             ORDER BY id'
+        );
+        $st->execute([':cat' => $categoria, ':cat2' => $categoria, ':area' => $area, ':area2' => $area]);
         return $st->fetchAll();
     }
 
@@ -29,8 +30,8 @@ class ProductoModel
     public function crear(array $d): int
     {
         $st = $this->pdo->prepare(
-            'INSERT INTO productos (nombre, descripcion, precio, stock, categoria)
-             VALUES (:nombre, :descripcion, :precio, :stock, :categoria)'
+            'INSERT INTO productos (nombre, descripcion, precio, stock, categoria, area)
+             VALUES (:nombre, :descripcion, :precio, :stock, :categoria, :area)'
         );
         $st->execute($this->params($d));
         return (int) $this->pdo->lastInsertId();
@@ -40,7 +41,7 @@ class ProductoModel
     {
         $st = $this->pdo->prepare(
             'UPDATE productos SET nombre = :nombre, descripcion = :descripcion,
-             precio = :precio, stock = :stock, categoria = :categoria WHERE id = :id'
+             precio = :precio, stock = :stock, categoria = :categoria, area = :area WHERE id = :id'
         );
         $st->execute($this->params($d) + [':id' => $id]);
         return $this->obtener($id) !== null; // rowCount() es 0 si no hubo cambios
@@ -61,6 +62,7 @@ class ProductoModel
             ':precio'      => $d['precio'],
             ':stock'       => $d['stock'],
             ':categoria'   => $d['categoria'],
+            ':area'        => $d['area'],
         ];
     }
 }

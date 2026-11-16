@@ -62,11 +62,11 @@ function configurarEsqueletoInteractivo() {
   }
   
   // Interceptar clics en el mapa de huesos para filtrar el catálogo sin recargar la SPA
-  vista.querySelectorAll('area[data-zona]').forEach(area => {
+  vista.querySelectorAll('area[data-area]').forEach(area => {
     area.addEventListener('click', (e) => {
       e.preventDefault();
-      const zona = area.dataset.zona;
-      location.hash = `#/catalogo?zona=${encodeURIComponent(zona)}`;
+      const zona = area.dataset.area;
+      location.hash = `#/catalogo?area=${encodeURIComponent(zona)}`;
     });
   });
 }
@@ -200,28 +200,28 @@ function actualizarContenedorCatalogo(prods) {
 }
 
 let productos = [];
+const NOMBRES_AREA = { clavicula: 'Clavícula', humero: 'Húmero', antebrazo: 'Antebrazo', 'radio-cubito': 'Radio y Cúbito',
+  mano: 'Mano', cadera: 'Cadera', femur: 'Fémur', tibia: 'Tibia', perone: 'Peroné', pie: 'Pie' };
+
 async function listarProductos() {
   const estado = $('#cat-estado');
+  const nombreZona = NOMBRES_AREA[zonaFiltroActual];
+  $('#t-cat').textContent = nombreZona ? `Productos para ${nombreZona}` : 'Catálogo de productos';
   aviso(estado, 'Cargando productos…', true);
-  const r = await api('productos.php');
-  if (!r.ok) { aviso(estado, 'No se pudo cargar el catálogo. Reintentá más tarde.', false); return; }
-  
+  // El filtro lo resuelve el servidor (columna area): no depende de tildes ni de texto libre
+  const r = await api(zonaFiltroActual ? `productos.php?area=${encodeURIComponent(zonaFiltroActual)}` : 'productos.php');
+  if (!r.ok) {
+    aviso(estado, r.codigo === 400 ? 'Esa zona del esqueleto no existe.' : 'No se pudo cargar el catálogo. Reintentá más tarde.', false);
+    actualizarContenedorCatalogo([]);
+    return;
+  }
   productos = r.data;
-
-  // Filtrar por zona si viene especificada por hash (ej: #/catalogo?zona=femur)
-  let prodsFiltrados = productos;
-  if (zonaFiltroActual) {
-    const z = zonaFiltroActual.toLowerCase();
-    prodsFiltrados = productos.filter(p => {
-      const texto = `${p.nombre} ${p.descripcion || ''} ${p.categoria || ''}`.toLowerCase();
-      return texto.includes(z);
-    });
-    aviso(estado, `${prodsFiltrados.length} productos filtrados para el área: ${zonaFiltroActual.toUpperCase()}.`, true);
+  if (nombreZona) {
+    aviso(estado, productos.length ? `${productos.length} producto(s) para ${nombreZona}.` : `Todavía no hay productos cargados para ${nombreZona}.`, productos.length > 0);
   } else {
     aviso(estado, `${productos.length} productos disponibles.`, true);
   }
-
-  actualizarContenedorCatalogo(prodsFiltrados);
+  actualizarContenedorCatalogo(productos);
 }
 
 function abrirForm(p) {
@@ -234,6 +234,7 @@ function abrirForm(p) {
   $('#p-precio').value = p ? p.precio : '';
   $('#p-stock').value = p ? p.stock : 0;
   $('#p-categoria').value = p ? p.categoria : 'osteosintesis';
+  $('#p-area').value = p && p.area ? p.area : (p ? '' : (zonaFiltroActual || ''));
   $('#p-nombre').focus();
 }
 
@@ -242,7 +243,7 @@ async function guardarProducto(e) {
   const id = $('#p-id').value;
   const datos = {
     nombre: $('#p-nombre').value, descripcion: $('#p-descripcion').value,
-    precio: $('#p-precio').value, stock: $('#p-stock').value, categoria: $('#p-categoria').value,
+    precio: $('#p-precio').value, stock: $('#p-stock').value, categoria: $('#p-categoria').value, area: $('#p-area').value,
   };
   const r = await api(id ? `productos.php?id=${encodeURIComponent(id)}` : 'productos.php',
     { method: id ? 'PUT' : 'POST', body: JSON.stringify(datos) });
@@ -267,7 +268,7 @@ async function vistaCatalogo() {
   const hashParts = location.hash.split('?');
   if (hashParts.length > 1) {
     const params = new URLSearchParams(hashParts[1]);
-    zonaFiltroActual = params.get('zona');
+    zonaFiltroActual = params.get('area');
   } else {
     zonaFiltroActual = null;
   }
@@ -286,6 +287,14 @@ async function vistaCatalogo() {
       vistaActualCatalogo = 'tabla';
       listarProductos();
     });
+  }
+
+  if (zonaFiltroActual) {
+    const todo = document.createElement('a');
+    todo.href = '#/catalogo';
+    todo.textContent = 'Ver todo el catálogo';
+    todo.className = 'enlace-volver';
+    $('#cat-estado').after(todo);
   }
 
   if (esAdmin()) {

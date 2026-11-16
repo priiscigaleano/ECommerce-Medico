@@ -21,10 +21,10 @@ $direccion     = trim((string)($input['direccion'] ?? ''));
 $telefono      = trim((string)($input['telefono'] ?? ''));
 $emailContacto = trim((string)($input['email'] ?? ''));
 $pagoRaw       = trim((string)($input['pago'] ?? ''));
-$productoId    = (int)($input['producto_id'] ?? 1);
-$cantidad      = (int)($input['cantidad'] ?? 1);
+$productoId    = filter_var($input['producto_id'] ?? null, FILTER_VALIDATE_INT);
+$cantidad      = filter_var($input['cantidad'] ?? null, FILTER_VALIDATE_INT);
 
-if ($nombreEnvio === '' || $direccion === '' || $telefono === '' || !filter_var($emailContacto, FILTER_VALIDATE_EMAIL) || $cantidad < 1) {
+if ($nombreEnvio === '' || $direccion === '' || $telefono === '' || !filter_var($emailContacto, FILTER_VALIDATE_EMAIL) || $productoId === false || $productoId < 1 || $cantidad === false || $cantidad < 1 || $cantidad > 1000) {
     responder(400, ['estado' => 'error', 'mensaje' => 'Datos de envío inválidos o incompletos.']);
 }
 
@@ -37,7 +37,10 @@ $mapaPagos = [
     'tarjeta_debito'  => 'tarjeta',
     'mercadopago'     => 'transferencia'
 ];
-$formaPago = $mapaPagos[$pagoRaw] ?? 'tarjeta';
+if (!isset($mapaPagos[$pagoRaw])) {
+    responder(400, ['estado' => 'error', 'mensaje' => 'Medio de pago inválido.']);
+}
+$formaPago = $mapaPagos[$pagoRaw];
 
 try {
     $modelo = new PedidoModel();
