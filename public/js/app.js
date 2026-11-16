@@ -259,6 +259,7 @@ async function accionFila(e) {
   const b = e.target.closest('button[data-accion]');
   if (!b) return;
   if (b.dataset.accion === 'editar') return abrirForm(productos.find((p) => String(p.id) === b.dataset.id));
+  if (b.dataset.accion === 'comprar') return vistaComprar(b.dataset.id);
   if (!window.confirm('¿Eliminar este producto?')) return;
   const r = await api(`productos.php?id=${encodeURIComponent(b.dataset.id)}`, { method: 'DELETE' });
   aviso($('#cat-estado'), r.mensaje || 'No se pudo eliminar.', r.ok);
