@@ -111,34 +111,57 @@ function renderizarTablaProductos(prods) {
   
   const thead = document.createElement('thead');
   const trHead = document.createElement('tr');
-  ['ID', 'Producto', 'Descripción', 'Precio', 'Stock'].forEach(txt => {
+  
+  // Armamos los encabezados de la tabla
+  ['ID', 'Producto', 'Descripción', 'Precio', 'Stock', 'Acciones'].forEach((txt, index) => {
     const th = document.createElement('th');
     th.scope = 'col';
     th.textContent = txt;
+    if (txt === 'Acciones') {
+      th.id = 'th-acciones';
+      if (!esAdmin()) th.hidden = true; // Ocultar para no administradores
+    }
     trHead.append(th);
   });
-  
-  const thAcciones = document.createElement('th');
-  thAcciones.scope = 'col';
-  thAcciones.id = 'th-acciones';
-  if (!esAdmin()) thAcciones.hidden = true;
-  thAcciones.textContent = 'Acciones';
-  trHead.append(thAcciones);
   thead.append(trHead);
 
   const tbody = document.createElement('tbody');
   tbody.id = 'cat-cuerpo';
 
+  // Recorremos cada producto
   prods.forEach(p => {
     const tr = document.createElement('tr');
+    
+    // 1. Agregamos las celdas de datos del producto
+    tr.append(
+      celda(p.id), 
+      celda(p.nombre), 
+      celda(p.descripcion || '—'), 
+      celda(moneda.format(Number(p.precio))), 
+      celda(p.stock)
+    );
+
+    // 2. Creamos la celda de Acciones
     const tdAcciones = document.createElement('td');
-    tdAcciones.append(boton('Comprar', 'comprar', p.id, 'btn-comprar-spa'));
-    tr.append(celda(p.id), celda(p.nombre), celda(p.descripcion), celda(moneda.format(Number(p.precio))), celda(p.stock), tdAcciones);
+    tdAcciones.className = 'acciones';
+
+    // Botón de Comprar (disponible para todos)
+    const btnComprar = boton('Comprar', 'comprar', p.id, 'btn-comprar-spa');
+    btnComprar.addEventListener('click', () => vistaComprar(p.id));
+    tdAcciones.append(btnComprar);
+
+    // Si es admin, agregamos botones de Editar y Eliminar
     if (esAdmin()) {
-      const td = celda('', 'acciones');
-      td.append(boton('Editar', 'editar', p.id), boton('Eliminar', 'eliminar', p.id, 'peligro'));
-      tr.append(td);
+      const btnEditar = boton('Editar', 'editar', p.id);
+      btnEditar.addEventListener('click', () => abrirForm(productos.find((prod) => String(prod.id) === String(p.id))));
+      
+      const btnEliminar = boton('Eliminar', 'eliminar', p.id, 'peligro');
+      // La acción de eliminar se mantiene delegada a accionFila
+      
+      tdAcciones.append(btnEditar, btnEliminar);
     }
+
+    tr.append(tdAcciones);
     tbody.append(tr);
   });
 
@@ -177,9 +200,11 @@ function renderizarGridProductos(prods) {
     spanPrecio.style.fontWeight = 'bold';
     spanPrecio.style.color = '#2c3e50';
 
-    footerDiv.append(spanPrecio);
+    // Crear el botón y ASIGNARLE EL EVENTO DIRECTAMENTE
     const btnComprar = boton('Comprar', 'comprar', p.id, 'btn-comprar-spa');
-    footerDiv.append(btnComprar);
+    btnComprar.addEventListener('click', () => vistaComprar(p.id)); // <-- EVENTO DIRECTO
+
+    footerDiv.append(spanPrecio, btnComprar);
 
     if (esAdmin()) {
       const adminDiv = document.createElement('div');
@@ -356,54 +381,50 @@ async function vistaSalir() {
 }
 
 /* ---------- Vista: comprar ---------- */
-let productoAComprar = null;
-
-async function vistaComprar() {
-
+async function vistaComprar(id) { // <-- El parámetro se llama 'id'
+  // Si no hay sesión, al login
   if (!sesion.usuario) {
     location.hash = '#/ingresar';
     return;
   }
-  
-  montar('tpl-comprar', 'Comprar');
-  const hashParts = location.hash.split('?');
-  const params = new URLSearchParams(hashParts[1] || '');
-  const prodId = params.get('id');
 
+  montar('tpl-comprar', 'Comprar');
   const estado = $('#compra-estado');
   const form = $('#form-compra');
   const cargando = $('#compra-cargando');
+  
+  // Si nos pasan el ID por parámetro lo usamos, sino lo buscamos en la URL
+  const prodId = id || new URLSearchParams(location.hash.split('?')[1] || '').get('id');
 
   if (!prodId) {
     aviso(estado, 'No seleccionaste ningún producto válido.', false);
-    cargando.hidden = true;
+    if (cargando) cargando.hidden = true;
     return;
   }
 
-  // Buscar los datos del producto en el servidor
+  // Buscar los datos del producto en la API
   const r = await api(`productos.php?id=${encodeURIComponent(prodId)}`);
   if (!r.ok) {
     aviso(estado, 'Error al cargar el producto: ' + (r.mensaje || 'No existe'), false);
-    cargando.hidden = true;
+    if (cargando) cargando.hidden = true;
     return;
   }
 
-  productoAComprar = r.data;
-  cargando.hidden = true;
-  form.hidden = false;
+  const producto = r.data;
+  if (cargando) cargando.hidden = true;
+  if (form) form.hidden = false;
 
-  // Rellenar el formulario con los datos del producto
-  $('#c-producto-id').value = productoAComprar.id;
-  $('#c-producto-nombre').textContent = productoAComprar.nombre;
-  $('#c-producto-precio').textContent = moneda.format(Number(productoAComprar.precio));
+  // Rellenar los datos
+  $('#c-producto-id').value = producto.id;
+  $('#c-producto-nombre').textContent = producto.nombre;
+  $('#c-producto-precio').textContent = moneda.format(Number(producto.precio));
   
-  // Si el usuario está logueado, prellenar el email y nombre
   if (sesion.usuario) {
     $('#c-email').value = sesion.usuario.email || '';
     $('#c-cliente').value = sesion.usuario.nombre || '';
   }
 
-  // Manejar el envío del formulario
+  // Evento de envío del formulario (le ponemos { once: true } para que no se duplique)
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -421,7 +442,6 @@ async function vistaComprar() {
     btnSubmit.disabled = true;
     btnSubmit.textContent = 'Procesando...';
 
-    // Enviar a la API
     const respuesta = await api('pedidos.php', {
       method: 'POST',
       body: JSON.stringify(datosPedido)
@@ -429,13 +449,13 @@ async function vistaComprar() {
 
     if (respuesta.ok) {
       alert('¡Compra realizada con éxito! Pedido N.° ' + (respuesta.data ? respuesta.data.pedido_id : ''));
-      location.hash = '#/inicio'; // O al catálogo
+      location.hash = '#/inicio';
     } else {
       aviso(estado, respuesta.mensaje || 'Error al procesar la compra.', false);
       btnSubmit.disabled = false;
       btnSubmit.textContent = 'Confirmar Compra';
     }
-  });
+  }, { once: true }); 
 }
 
 /* ---------- Router por hash + menú hamburguesa accesible ---------- */
