@@ -148,7 +148,12 @@ function renderizarTablaProductos(prods) {
     // Botón de Comprar (disponible para todos)
     const btnComprar = boton('Comprar', 'comprar', p.id, 'btn-comprar-spa');
     btnComprar.addEventListener('click', () => vistaComprar(p.id));
-    tdAcciones.append(btnComprar);
+    const btnVer = boton('Ver', 'ver', p.id, 'btn-sec'); // Usamos btn-sec para otro color
+    btnVer.style.padding = '6px 12px';
+    btnVer.style.fontSize = '0.85em';
+    btnVer.style.marginRight = '4px';
+    btnVer.addEventListener('click', () => vistaProducto(p.id));
+    tdAcciones.append(btnComprar, btnVer);
 
     // Si es admin, agregamos botones de Editar y Eliminar
     if (esAdmin()) {
@@ -204,7 +209,17 @@ function renderizarGridProductos(prods) {
     const btnComprar = boton('Comprar', 'comprar', p.id, 'btn-comprar-spa');
     btnComprar.addEventListener('click', () => vistaComprar(p.id)); // <-- EVENTO DIRECTO
 
-    footerDiv.append(spanPrecio, btnComprar);
+    const btnVer = boton('Ver', 'ver', p.id, 'btn-sec');
+    btnVer.style.padding = '6px 12px';
+    btnVer.style.fontSize = '0.85em';
+    btnVer.addEventListener('click', () => vistaProducto(p.id));
+
+    const btnGroup = document.createElement('div');
+    btnGroup.style.display = 'flex';
+    btnGroup.style.gap = '5px';
+    btnGroup.append(btnVer, btnComprar);
+
+    footerDiv.append(spanPrecio, btnGroup);
 
     if (esAdmin()) {
       const adminDiv = document.createElement('div');
@@ -458,22 +473,136 @@ async function vistaComprar(id) { // <-- El parámetro se llama 'id'
   }, { once: true }); 
 }
 
+/* ---------- Vista: detalle de producto ---------- */
+async function vistaProducto(id) {
+  montar('tpl-producto', 'Detalle de Producto');
+  
+  const prodId = id || new URLSearchParams(location.hash.split('?')[1] || '').get('id');
+  if (!prodId) {
+    vista.replaceChildren(document.createTextNode('No se seleccionó un producto.'));
+    return;
+  }
+
+  const r = await api(`productos.php?id=${encodeURIComponent(prodId)}`);
+  if (!r.ok) {
+    vista.replaceChildren(document.createTextNode('Error al cargar el producto.'));
+    return;
+  }
+
+  const p = r.data;
+  $('#det-nombre').textContent = p.nombre;
+  $('#det-desc').textContent = p.descripcion || 'Sin descripción.';
+  $('#det-cat').textContent = p.categoria;
+  $('#det-stock').textContent = p.stock;
+  $('#det-precio').textContent = moneda.format(Number(p.precio)).replace('$', '').trim();
+  
+  const btnComprar = $('#btn-det-comprar');
+  btnComprar.addEventListener('click', () => vistaComprar(p.id));
+  
+  if (p.stock < 1) {
+    btnComprar.disabled = true;
+    btnComprar.textContent = 'Sin Stock';
+    btnComprar.style.background = '#999';
+  }
+
+  const btnVolver = $('#btn-volver-catalogo');
+  if (btnVolver) {
+    btnVolver.addEventListener('click', (e) => {
+      e.preventDefault(); // Evita que el navegador haga cosas raras
+      location.hash = '#/catalogo'; // Forzamos el cambio de hash
+    });
+  }
+
+}
+
+/* ---------- Vista: presupuesto ---------- */
+function vistaPresupuesto() {
+  montar('tpl-presupuesto', 'Presupuesto');
+
+  const form = $('#form-presupuesto');
+  const formatoARS = (n) => moneda.format(n);
+
+  function calcular() {
+    const servicioSelect = $('#pres-servicio');
+    const optionServicio = servicioSelect.options[servicioSelect.selectedIndex];
+    if (!optionServicio.value) return; // Si no hay selección, no calculamos
+
+    const precioUnitario = Number(optionServicio.dataset.precio);
+    const cantidad = parseInt($('#pres-cantidad').value) || 1;
+    const subtotal = precioUnitario * cantidad;
+
+    // 1. Descuento por Volumen (según AE2)
+    let pctVolumen = 0;
+    if (cantidad >= 20) pctVolumen = 22;
+    else if (cantidad >= 10) pctVolumen = 15;
+    else if (cantidad >= 5) pctVolumen = 8;
+    const montoVolumen = subtotal * (pctVolumen / 100);
+
+    // 2. Descuento por Cliente
+    const clienteSelect = $('#pres-cliente');
+    const pctCliente = Number(clienteSelect.options[clienteSelect.selectedIndex].dataset.desc) || 0;
+    const baseCliente = subtotal - montoVolumen;
+    const montoCliente = baseCliente * (pctCliente / 100);
+
+    // 3. Ajuste por Pago
+    const pagoSelect = $('#pres-pago');
+    const pctPago = Number(pagoSelect.options[pagoSelect.selectedIndex].dataset.ajuste) || 0;
+    const basePago = baseCliente - montoCliente;
+    const montoPago = basePago * (pctPago / 100);
+    const subtotalAjustado = basePago + montoPago;
+
+    // 4. IVA
+    const conIva = $('#pres-iva').checked;
+    const montoIva = conIva ? subtotalAjustado * 0.21 : 0;
+    const total = subtotalAjustado + montoIva;
+
+    // Pintar resultados en el DOM (usando .textContent)
+    $('#out-subtotal').textContent = formatoARS(subtotal);
+    $('#out-volumen').textContent = pctVolumen > 0 ? `-${formatoARS(montoVolumen)} (${pctVolumen}%)` : 'Sin descuento';
+    $('#out-cliente').textContent = pctCliente > 0 ? `-${formatoARS(montoCliente)} (${pctCliente}%)` : 'Sin descuento';
+    $('#out-pago').textContent = pctPago !== 0 ? `${formatoARS(montoPago)} (${pctPago}%)` : 'Sin ajuste';
+    $('#out-iva').textContent = conIva ? formatoARS(montoIva) : 'No aplica';
+    $('#out-total').textContent = formatoARS(total);
+  }
+
+  // Escuchar cambios para calcular en tiempo real
+  form.addEventListener('input', calcular);
+  form.addEventListener('change', calcular);
+}
+
 /* ---------- Router por hash + menú hamburguesa accesible ---------- */
-const rutas = { inicio: vistaInicio, catalogo: vistaCatalogo, ingresar: vistaIngresar, salir: vistaSalir, comprar: () => vistaComprar() };
+const rutas = { inicio: vistaInicio, catalogo: vistaCatalogo, ingresar: vistaIngresar, salir: vistaSalir, comprar: () => vistaComprar(), producto: () => vistaProducto(), presupuesto: vistaPresupuesto};
 let primeraCarga = true;
 
 async function navegar() {
-  const hashClean = location.hash.split('?')[0].replace('#/', '');
+  // 1. Limpiamos la URL para obtener solo la ruta base (ej: "producto" o "catalogo")
+  const hashCompleto = location.hash || '#/inicio';
+  const hashClean = hashCompleto.split('?')[0].replace('#/', '') || 'inicio';
+  
+  // 2. Buscamos la función de la ruta. Si no existe, va a inicio.
   const ruta = rutas[hashClean] || vistaInicio;
+  
+  // 3. Cerramos el menú móvil
   cerrarMenu();
+  
+  // 4. Ejecutamos la vista (solo una vez)
   await ruta();
-  if (!primeraCarga) vista.focus(); // tras navegar, el foco pasa al contenido nuevo
+  
+  // 5. Movemos el foco al contenido principal por accesibilidad
+  if (!primeraCarga) vista.focus(); 
   primeraCarga = false;
 }
 
+// --- Eventos del Menú Hamburguesa ---
 const btnMenu = document.getElementById('btn-menu');
 const menuMovil = document.getElementById('menu-movil');
-function cerrarMenu() { menuMovil.classList.remove('abierto'); btnMenu.setAttribute('aria-expanded', 'false'); }
+
+function cerrarMenu() { 
+  if (menuMovil && btnMenu) {
+    menuMovil.classList.remove('abierto'); 
+    btnMenu.setAttribute('aria-expanded', 'false'); 
+  }
+}
 
 if (btnMenu && menuMovil) {
   btnMenu.addEventListener('click', () => {
@@ -481,6 +610,20 @@ if (btnMenu && menuMovil) {
     btnMenu.setAttribute('aria-expanded', String(abierto));
   });
 }
+
+// Cerrar menú con la tecla Escape
+document.addEventListener('keydown', (e) => { 
+  if (e.key === 'Escape') cerrarMenu(); 
+});
+
+// Escuchar cambios en la URL
+window.addEventListener('hashchange', navegar);
+
+// Iniciar la aplicación
+(async () => { 
+  await cargarSesion(); 
+  await navegar(); 
+})();
 
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarMenu(); });
 window.addEventListener('hashchange', navegar);
