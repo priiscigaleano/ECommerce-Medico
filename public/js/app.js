@@ -258,12 +258,24 @@ async function guardarProducto(e) {
 async function accionFila(e) {
   const b = e.target.closest('button[data-accion]');
   if (!b) return;
-  if (b.dataset.accion === 'editar') return abrirForm(productos.find((p) => String(p.id) === b.dataset.id));
-  if (b.dataset.accion === 'comprar') return vistaComprar(b.dataset.id);
-  if (!window.confirm('¿Eliminar este producto?')) return;
-  const r = await api(`productos.php?id=${encodeURIComponent(b.dataset.id)}`, { method: 'DELETE' });
-  aviso($('#cat-estado'), r.mensaje || 'No se pudo eliminar.', r.ok);
-  if (r.ok) await listarProductos();
+
+  // 1. Si es editar, abre el formulario
+  if (b.dataset.accion === 'editar') {
+    return abrirForm(productos.find((p) => String(p.id) === b.dataset.id));
+  }
+
+  // 2. Si es comprar, llama a la vista de compra con el ID
+  if (b.dataset.accion === 'comprar') {
+    return vistaComprar(b.dataset.id);
+  }
+
+  // 3. Si es eliminar, pide confirmación
+  if (b.dataset.accion === 'eliminar') {
+    if (!window.confirm('¿Eliminar este producto?')) return;
+    const r = await api(`productos.php?id=${encodeURIComponent(b.dataset.id)}`, { method: 'DELETE' });
+    aviso($('#cat-estado'), r.mensaje || 'No se pudo eliminar.', r.ok);
+    if (r.ok) await listarProductos();
+  }
 }
 
 async function vistaCatalogo() {
@@ -343,8 +355,91 @@ async function vistaSalir() {
   location.hash = '#/inicio';
 }
 
+/* ---------- Vista: comprar ---------- */
+let productoAComprar = null;
+
+async function vistaComprar() {
+
+  if (!sesion.usuario) {
+    location.hash = '#/ingresar';
+    return;
+  }
+  
+  montar('tpl-comprar', 'Comprar');
+  const hashParts = location.hash.split('?');
+  const params = new URLSearchParams(hashParts[1] || '');
+  const prodId = params.get('id');
+
+  const estado = $('#compra-estado');
+  const form = $('#form-compra');
+  const cargando = $('#compra-cargando');
+
+  if (!prodId) {
+    aviso(estado, 'No seleccionaste ningún producto válido.', false);
+    cargando.hidden = true;
+    return;
+  }
+
+  // Buscar los datos del producto en el servidor
+  const r = await api(`productos.php?id=${encodeURIComponent(prodId)}`);
+  if (!r.ok) {
+    aviso(estado, 'Error al cargar el producto: ' + (r.mensaje || 'No existe'), false);
+    cargando.hidden = true;
+    return;
+  }
+
+  productoAComprar = r.data;
+  cargando.hidden = true;
+  form.hidden = false;
+
+  // Rellenar el formulario con los datos del producto
+  $('#c-producto-id').value = productoAComprar.id;
+  $('#c-producto-nombre').textContent = productoAComprar.nombre;
+  $('#c-producto-precio').textContent = moneda.format(Number(productoAComprar.precio));
+  
+  // Si el usuario está logueado, prellenar el email y nombre
+  if (sesion.usuario) {
+    $('#c-email').value = sesion.usuario.email || '';
+    $('#c-cliente').value = sesion.usuario.nombre || '';
+  }
+
+  // Manejar el envío del formulario
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const datosPedido = {
+      producto_id: parseInt($('#c-producto-id').value),
+      cantidad: parseInt($('#c-cantidad').value),
+      cliente: $('#c-cliente').value,
+      direccion: $('#c-direccion').value,
+      telefono: $('#c-telefono').value,
+      email: $('#c-email').value,
+      pago: $('#c-pago').value
+    };
+
+    const btnSubmit = form.querySelector('button[type="submit"]');
+    btnSubmit.disabled = true;
+    btnSubmit.textContent = 'Procesando...';
+
+    // Enviar a la API
+    const respuesta = await api('pedidos.php', {
+      method: 'POST',
+      body: JSON.stringify(datosPedido)
+    });
+
+    if (respuesta.ok) {
+      alert('¡Compra realizada con éxito! Pedido N.° ' + (respuesta.data ? respuesta.data.pedido_id : ''));
+      location.hash = '#/inicio'; // O al catálogo
+    } else {
+      aviso(estado, respuesta.mensaje || 'Error al procesar la compra.', false);
+      btnSubmit.disabled = false;
+      btnSubmit.textContent = 'Confirmar Compra';
+    }
+  });
+}
+
 /* ---------- Router por hash + menú hamburguesa accesible ---------- */
-const rutas = { inicio: vistaInicio, catalogo: vistaCatalogo, ingresar: vistaIngresar, salir: vistaSalir };
+const rutas = { inicio: vistaInicio, catalogo: vistaCatalogo, ingresar: vistaIngresar, salir: vistaSalir, comprar: () => vistaComprar() };
 let primeraCarga = true;
 
 async function navegar() {
