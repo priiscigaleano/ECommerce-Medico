@@ -131,7 +131,9 @@ function renderizarTablaProductos(prods) {
 
   prods.forEach(p => {
     const tr = document.createElement('tr');
-    tr.append(celda(p.id), celda(p.nombre), celda(p.descripcion), celda(moneda.format(Number(p.precio))), celda(p.stock));
+    const tdAcciones = document.createElement('td');
+    tdAcciones.append(boton('Comprar', 'comprar', p.id, 'btn-comprar-spa'));
+    tr.append(celda(p.id), celda(p.nombre), celda(p.descripcion), celda(moneda.format(Number(p.precio))), celda(p.stock), tdAcciones);
     if (esAdmin()) {
       const td = celda('', 'acciones');
       td.append(boton('Editar', 'editar', p.id), boton('Eliminar', 'eliminar', p.id, 'peligro'));
@@ -176,6 +178,8 @@ function renderizarGridProductos(prods) {
     spanPrecio.style.color = '#2c3e50';
 
     footerDiv.append(spanPrecio);
+    const btnComprar = boton('Comprar', 'comprar', p.id, 'btn-comprar-spa');
+    footerDiv.append(btnComprar);
 
     if (esAdmin()) {
       const adminDiv = document.createElement('div');
