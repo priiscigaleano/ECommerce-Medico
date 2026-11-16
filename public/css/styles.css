@@ -1248,3 +1248,32 @@ nav.menu-secundario.abierto{display:block}
     color: #27ae60;
     font-size: 1.1rem;
 }
+
+/* Ajuste para que los botones y el precio no desborden en las tarjetas */
+.card-producto > div:last-child {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos bajen de línea si no entran */
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px; /* Espacio entre precio y botones */
+    width: 100%;
+}
+
+/* Contenedor de los botones de la tarjeta */
+.card-producto .btn-group {
+    display: flex;
+    gap: 5px;
+}
+
+/* Achicamos un poco la letra de los botones solo en las tarjetas */
+.card-producto .btn-comprar-spa,
+.card-producto .btn-sec {
+    padding: 5px 8px; 
+    font-size: 0.75rem;
+}
+
+/* Hacemos que el precio ocupe su espacio y no se aplaste */
+.card-producto span {
+    font-size: 1rem;
+    white-space: nowrap; /* Evita que el precio se rompa en dos líneas */
+}

@@ -37,6 +37,7 @@
           <li class="item-movil"><a href="#/inicio">Inicio</a></li>
           <li class="item-movil"><a href="#/catalogo">Catálogo</a></li>
           <li class="item-movil"><a href="#/ingresar" class="enlace-sesion">Ingresar</a></li>
+          <li class="item-movil"><a href="#/presupuesto">Presupuesto</a></li>
         </ul>
       </nav>
     </div>
@@ -317,6 +318,96 @@
     </section>
   </template>
 
-  <script src="js/app.js"></script>
+<!-- VISTA: DETALLE DE PRODUCTO -->
+<template id="tpl-producto">
+  <section class="contenedor-productos" style="max-width: 800px;">
+    <a href="#" class="btn-volver" id="btn-volver-catalogo">← Volver al Catálogo</a>
+    <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1rem;">
+        <div style="flex: 1; min-width: 250px; text-align: center;">
+          <img src="img/logo-tienda.png" alt="Imagen producto" style="width: 100%; max-width: 300px; border-radius: 10px;">
+        </div>
+        <div style="flex: 2; min-width: 250px; text-align: left;">
+          <h2 id="det-nombre" style="margin-top: 0;">Nombre del producto</h2>
+          <p id="det-desc" style="color: #555; font-size: 1.1rem;">Descripción del producto...</p>
+          <p style="font-size: 0.9rem; color: #666;">Categoría: <strong id="det-cat"></strong></p>
+          <p style="font-size: 0.9rem; color: #666;">Stock disponible: <strong id="det-stock"></strong></p>
+          <h3 style="color: #27ae60; font-size: 1.8rem; margin: 1rem 0;">$ <span id="det-precio">0.00</span></h3>
+          <button type="button" class="btn-submit" id="btn-det-comprar" style="max-width: 250px;">Comprar este producto</button>
+        </div>
+      </div>
+    </section>
+  </template>
+
+<!-- VISTA: PRESUPUESTO -->
+<template id="tpl-presupuesto">
+  <section class="contenedor-productos" style="max-width: 800px;">
+    <h2>Calculadora de Presupuestos</h2>
+    <p>Estimá el costo de una orden de insumos quirúrgicos.</p>
+      
+    <form id="form-presupuesto" class="purchase-form" style="max-width: 100%; margin: 1rem 0;">
+      <div class="form-group">
+        <label>Producto/Servicio:</label>
+        <select id="pres-servicio" required>
+          <option value="">Seleccione un servicio</option>
+          <option value="kit-basico" data-precio="85000">Kit Quirúrgico Básico ($85.000)</option>
+          <option value="kit-complejo" data-precio="215000">Kit Quirúrgico Complejo ($215.000)</option>
+          <option value="esterilizacion" data-precio="12000">Esterilización ($12.000)</option>
+          <option value="logistica" data-precio="18000">Logística ($18.000)</option>
+        </select>
+      </div>
+        
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <div class="form-group" style="flex: 1;">
+          <label>Cantidad:</label>
+          <input type="number" id="pres-cantidad" value="1" min="1" required>
+        </div>
+        <div class="form-group" style="flex: 1;">
+          <label>Tipo de Cliente:</label>
+          <select id="pres-cliente">
+            <option value="particular" data-desc="0">Particular</option>
+            <option value="clinica" data-desc="10">Clínica / Sanatorio (-10%)</option>
+            <option value="obra-social" data-desc="18">Obra Social / Prepaga (-18%)</option>
+          </select>
+        </div>
+       </div>
+
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <div class="form-group" style="flex: 1;">
+          <label>Forma de Pago:</label>
+          <select id="pres-pago">
+            <option value="efectivo" data-ajuste="-5">Efectivo (-5%)</option>
+            <option value="transferencia" data-ajuste="0">Transferencia (0%)</option>
+            <option value="tarjeta" data-ajuste="7">Tarjeta de Crédito (+7%)</option>
+          </select>
+        </div>
+        <div class="form-group" style="flex: 1; display: flex; align-items: flex-end; padding-bottom: 10px;">
+          <label style="display: flex; gap: 8px; cursor: pointer; font-weight: normal;">
+            <input type="checkbox" id="pres-iva" checked> Incluir IVA (21%)
+          </label>
+        </div>
+      </div>
+    </form>
+
+    <!-- Panel de resultados -->
+    <div id="resultado-presupuesto" style="background: #f4f7fb; border-radius: 10px; padding: 1.5rem; text-align: left;">
+      <h3 style="margin-top: 0; border-bottom: 2px solid #09246e; padding-bottom: 0.5rem;">Resumen del Presupuesto</h3>
+      <table style="width: 100%; border-collapse: collapse;" id="tabla-presupuesto">
+        <tbody>
+          <tr><th style="text-align: left; padding: 8px 0; border-bottom: 1px solid #ddd;">Subtotal</th><td style="text-align: right;" id="out-subtotal">$ 0.00</td></tr>
+          <tr><th style="text-align: left; padding: 8px 0; border-bottom: 1px solid #ddd;">Descuento por volumen</th><td style="text-align: right;" id="out-volumen">—</td></tr>
+          <tr><th style="text-align: left; padding: 8px 0; border-bottom: 1px solid #ddd;">Descuento por cliente</th><td style="text-align: right;" id="out-cliente">—</td></tr>
+          <tr><th style="text-align: left; padding: 8px 0; border-bottom: 1px solid #ddd;">Ajuste por pago</th><td style="text-align: right;" id="out-pago">—</td></tr>
+          <tr><th style="text-align: left; padding: 8px 0; border-bottom: 1px solid #ddd;">IVA (21%)</th><td style="text-align: right;" id="out-iva">—</td></tr>
+          <tr style="font-size: 1.2rem; color: #09246e;">
+            <th style="text-align: left; padding: 12px 0; border-top: 2px solid #09246e;">TOTAL</th>
+            <td style="text-align: right; border-top: 2px solid #09246e; font-weight: bold;" id="out-total">$ 0.00</td>
+           </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</template>
+
+<script src="js/app.js"></script>
 </body>
 </html>
