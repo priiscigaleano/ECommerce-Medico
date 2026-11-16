@@ -145,15 +145,17 @@ function renderizarTablaProductos(prods) {
     const tdAcciones = document.createElement('td');
     tdAcciones.className = 'acciones';
 
-    // Botón de Comprar (disponible para todos)
+    // Botón de Comprar y Ver (disponible para todos)
     const btnComprar = boton('Comprar', 'comprar', p.id, 'btn-comprar-spa');
     btnComprar.addEventListener('click', () => vistaComprar(p.id));
-    const btnVer = boton('Ver', 'ver', p.id, 'btn-sec'); // Usamos btn-sec para otro color
+    
+    const btnVer = boton('Ver', 'ver', p.id, 'btn-sec'); 
     btnVer.style.padding = '6px 12px';
     btnVer.style.fontSize = '0.85em';
     btnVer.style.marginRight = '4px';
     btnVer.addEventListener('click', () => vistaProducto(p.id));
-    tdAcciones.append(btnComprar, btnVer);
+    
+    tdAcciones.append(btnVer, btnComprar);
 
     // Si es admin, agregamos botones de Editar y Eliminar
     if (esAdmin()) {
@@ -205,9 +207,9 @@ function renderizarGridProductos(prods) {
     spanPrecio.style.fontWeight = 'bold';
     spanPrecio.style.color = '#2c3e50';
 
-    // Crear el botón y ASIGNARLE EL EVENTO DIRECTAMENTE
+    // Crear los botones y asignarles el evento directamente
     const btnComprar = boton('Comprar', 'comprar', p.id, 'btn-comprar-spa');
-    btnComprar.addEventListener('click', () => vistaComprar(p.id)); // <-- EVENTO DIRECTO
+    btnComprar.addEventListener('click', () => vistaComprar(p.id));
 
     const btnVer = boton('Ver', 'ver', p.id, 'btn-sec');
     btnVer.style.padding = '6px 12px';
@@ -252,6 +254,7 @@ async function listarProductos() {
   const nombreZona = NOMBRES_AREA[zonaFiltroActual];
   $('#t-cat').textContent = nombreZona ? `Productos para ${nombreZona}` : 'Catálogo de productos';
   aviso(estado, 'Cargando productos…', true);
+  
   // El filtro lo resuelve el servidor (columna area): no depende de tildes ni de texto libre
   const r = await api(zonaFiltroActual ? `productos.php?area=${encodeURIComponent(zonaFiltroActual)}` : 'productos.php');
   if (!r.ok) {
@@ -624,8 +627,3 @@ window.addEventListener('hashchange', navegar);
   await cargarSesion(); 
   await navegar(); 
 })();
-
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarMenu(); });
-window.addEventListener('hashchange', navegar);
-
-(async () => { await cargarSesion(); await navegar(); })();
