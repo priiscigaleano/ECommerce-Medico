@@ -147,8 +147,7 @@ function renderizarTablaProductos(prods) {
 
     // Botón de Comprar y Ver (disponible para todos)
     const btnComprar = boton('Comprar', 'comprar', p.id, 'btn-comprar-spa');
-    btnComprar.addEventListener('click', () => vistaComprar(p.id));
-    
+    btnComprar.addEventListener('click', () => { location.hash = '#/comprar?id=' + p.id; });
     const btnVer = boton('Ver', 'ver', p.id, 'btn-sec'); 
     btnVer.style.padding = '6px 12px';
     btnVer.style.fontSize = '0.85em';
@@ -188,16 +187,16 @@ function renderizarGridProductos(prods) {
     article.style.cssText = 'border: 1px solid #ddd; padding: 1rem; border-radius: 8px; background: #fff; display: flex; flex-direction: column; justify-content: space-between;';
 
     const infoDiv = document.createElement('div');
-    const h4 = document.createElement('h4');
-    h4.textContent = p.nombre;
-    h4.style.marginBottom = '0.5rem';
+    const h3 = document.createElement('h3');
+    h3.textContent = p.nombre;
+    h3.style.marginBottom = '0.5rem';
 
     const pDesc = document.createElement('p');
     pDesc.textContent = p.descripcion || 'Sin descripción';
     pDesc.style.fontSize = '0.9rem';
     pDesc.style.color = '#555';
 
-    infoDiv.append(h4, pDesc);
+    infoDiv.append(h3, pDesc);
 
     const footerDiv = document.createElement('div');
     footerDiv.style.cssText = 'margin-top: 1rem; display: flex; justify-content: space-between; align-items: center;';
@@ -209,13 +208,12 @@ function renderizarGridProductos(prods) {
 
     // Crear los botones y asignarles el evento directamente
     const btnComprar = boton('Comprar', 'comprar', p.id, 'btn-comprar-spa');
-    btnComprar.addEventListener('click', () => vistaComprar(p.id));
+    btnComprar.addEventListener('click', () => { location.hash = '#/comprar?id=' + p.id; });
 
     const btnVer = boton('Ver', 'ver', p.id, 'btn-sec');
     btnVer.style.padding = '6px 12px';
     btnVer.style.fontSize = '0.85em';
-    btnVer.addEventListener('click', () => vistaProducto(p.id));
-
+    btnVer.addEventListener('click', () => { location.hash = '#/producto?id=' + p.id; });
     const btnGroup = document.createElement('div');
     btnGroup.style.display = 'flex';
     btnGroup.style.gap = '5px';
@@ -445,7 +443,7 @@ async function vistaComprar(id) { // <-- El parámetro se llama 'id'
   // Evento de envío del formulario (le ponemos { once: true } para que no se duplique)
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const datosPedido = {
       producto_id: parseInt($('#c-producto-id').value),
       cantidad: parseInt($('#c-cantidad').value),
@@ -466,14 +464,20 @@ async function vistaComprar(id) { // <-- El parámetro se llama 'id'
     });
 
     if (respuesta.ok) {
-      alert('¡Compra realizada con éxito! Pedido N.° ' + (respuesta.data ? respuesta.data.pedido_id : ''));
-      location.hash = '#/inicio';
+      aviso(estado, '¡Compra realizada con éxito! Pedido N.° ' + (respuesta.data ? respuesta.data.pedido_id : ''), true);
+      // Y después de 2 segundos, redirigir:
+      setTimeout(() => { location.hash = '#/inicio'; }, 2000);
     } else {
       aviso(estado, respuesta.mensaje || 'Error al procesar la compra.', false);
       btnSubmit.disabled = false;
       btnSubmit.textContent = 'Confirmar Compra';
     }
-  }, { once: true }); 
+  });
+
+  $('#btn-cancelar-compra').addEventListener('click', () => {
+    location.hash = '#/catalogo';
+  });
+
 }
 
 /* ---------- Vista: detalle de producto ---------- */
