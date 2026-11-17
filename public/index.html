@@ -313,7 +313,7 @@
         </div>
         
         <button type="submit" class="btn-submit">Confirmar Compra</button>
-        <button type="button" class="btn-sec" onclick="location.hash = '#/catalogo'">Cancelar</button>
+        <button type="button" class="btn-sec" id="btn-cancelar-compra">Cancelar</button>
       </form>
     </section>
   </template>
@@ -346,7 +346,7 @@
       
     <form id="form-presupuesto" class="purchase-form" style="max-width: 100%; margin: 1rem 0;">
       <div class="form-group">
-        <label>Producto/Servicio:</label>
+        <label for="pres-servicio">Producto/Servicio:</label>
         <select id="pres-servicio" required>
           <option value="">Seleccione un servicio</option>
           <option value="kit-basico" data-precio="85000">Kit Quirúrgico Básico ($85.000)</option>
@@ -358,11 +358,11 @@
         
       <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
         <div class="form-group" style="flex: 1;">
-          <label>Cantidad:</label>
+          <label for="pres-cantidad">Cantidad:</label>
           <input type="number" id="pres-cantidad" value="1" min="1" required>
         </div>
         <div class="form-group" style="flex: 1;">
-          <label>Tipo de Cliente:</label>
+          <label for="pres-cliente">Tipo de Cliente:</label>
           <select id="pres-cliente">
             <option value="particular" data-desc="0">Particular</option>
             <option value="clinica" data-desc="10">Clínica / Sanatorio (-10%)</option>
@@ -373,7 +373,7 @@
 
       <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
         <div class="form-group" style="flex: 1;">
-          <label>Forma de Pago:</label>
+          <label for="pres-pago">Forma de Pago:</label>
           <select id="pres-pago">
             <option value="efectivo" data-ajuste="-5">Efectivo (-5%)</option>
             <option value="transferencia" data-ajuste="0">Transferencia (0%)</option>
@@ -381,7 +381,7 @@
           </select>
         </div>
         <div class="form-group" style="flex: 1; display: flex; align-items: flex-end; padding-bottom: 10px;">
-          <label style="display: flex; gap: 8px; cursor: pointer; font-weight: normal;">
+          <label for="pres-iva" style="display: flex; gap: 8px; cursor: pointer; font-weight: normal;">
             <input type="checkbox" id="pres-iva" checked> Incluir IVA (21%)
           </label>
         </div>
