@@ -63,10 +63,17 @@ function configurarEsqueletoInteractivo() {
   
   // Interceptar clics en el mapa de huesos para filtrar el catálogo sin recargar la SPA
   vista.querySelectorAll('area[data-area]').forEach(area => {
+    area.setAttribute('tabindex', '0');
     area.addEventListener('click', (e) => {
       e.preventDefault();
       const zona = area.dataset.area;
       location.hash = `#/catalogo?area=${encodeURIComponent(zona)}`;
+    });
+    area.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        area.click();
+      }
     });
   });
 }
@@ -615,6 +622,12 @@ if (btnMenu && menuMovil) {
   btnMenu.addEventListener('click', () => {
     const abierto = menuMovil.classList.toggle('abierto');
     btnMenu.setAttribute('aria-expanded', String(abierto));
+  });
+  btnMenu.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (!e.repeat) btnMenu.click();
+    }
   });
 }
 
