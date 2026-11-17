@@ -1174,6 +1174,16 @@ nav.menu-secundario.abierto{display:block}
 }
 .enlace-volver{display:inline-block;margin:0 0 12px;font-weight:600}
 
+/* Contraste de la vista de detalle del producto */
+.contenedor-productos h3:has(#det-precio) {
+    color: #1e8449 !important;
+}
+
+.contenedor-productos #det-desc,
+.contenedor-productos p:has(#det-cat) {
+    color: #333333 !important;
+}
+
 /* ==========================================
    NUEVOS ESTILOS PARA LA VISTA DE COMPRA (Punto 4)
    ========================================== */
@@ -1225,7 +1235,7 @@ nav.menu-secundario.abierto{display:block}
 
 /* Tarjeta de resumen del producto dentro del formulario */
 .resumen-producto-compra {
-    background-color: #f4f7fb;
+    background-color: #ffffff;
     border-left: 5px solid #09246e;
     padding: 1rem 1.5rem;
     border-radius: 8px;
