@@ -623,7 +623,7 @@ td img {
 }
 
 .btn-comprar:hover {
-    background-color: #219150;
+    background-color: #1b6b3b;
 }
 
 .btn-ir {
@@ -695,7 +695,7 @@ td img {
 
 .btn-submit {
     width: 100%;
-    background-color: #27ae60;
+    background-color: #1e8449;
     color: white;
     border: none;
     padding: 12px;
@@ -706,7 +706,7 @@ td img {
 }
 
 .btn-submit:hover {
-    background-color: #219150;
+    background-color: #1b6b3b;
 }
 
 .carrito-box {
@@ -748,7 +748,7 @@ footer {
    ========================================== */
 .btn-comprar {
     display: inline-block;
-    background-color: #27ae60;
+    background-color: #1e8449;
     color: white;
     padding: 10px 20px;
     border-radius: 5px;
@@ -759,7 +759,7 @@ footer {
 }
 
 .btn-comprar:hover {
-    background-color: #219150;
+    background-color: #1b6b3b;
 }
 
 /* ==========================================
@@ -1194,7 +1194,7 @@ nav.menu-secundario.abierto{display:block}
 }
 
 .btn-comprar-spa:hover {
-    background-color: #219150;
+    background-color: #1b6b3b;
 }
 
 /* Ajuste en la tabla para que la columna de acciones no ocupe mucho espacio */
@@ -1245,7 +1245,7 @@ nav.menu-secundario.abierto{display:block}
 }
 
 .resumen-producto-compra strong {
-    color: #27ae60;
+    color: #1e8449;
     font-size: 1.1rem;
 }
 
